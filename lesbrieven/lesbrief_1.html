@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>D3.js module</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../montessori_test.html">D3.js</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="lesbrief_1.html">Lesbrief 1</a></li>
+        <li><a href="lesbrief_2.html">Lesbrief 2</a></li>
+        <li><a href="lesbrief_3.html">Lesbrief 3</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin">Lesbrief 1</h3>
+  <p>In deze lesbrief gaan we de basics van D3 behandelen. Maar eerst laten we voortaan altijd aan het begin van de lesbrief een visualisatie zien, om de mogelijkheden van D3 te illustreren! Hier over zie je bijvoorbeeld een spelletje die gemaakt is, enkel met D3!</p>
+  <svg id="game"></svg>
+  <h4><strong>Auteur: wenchao jiang <br> Git repo: https://github.com/wenchaojiang/d3game </strong></h4>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="../js/d3_games.js" ></script>
+</div>
+
+<!-- Third Container (Grid) -->
+<div class="container-fluid bg-3 text-center">
+  <h3 class="margin">De basics</h3><br>
+  <p>D3 is een mix van verschillende elementen (zie het plaatje hier onder). De meeste ken je al, maar een paar zullen waarschijnlijk nog onbekend voor je zijn. HTML, en CSS zijn al bekend van de modules "HTML CSS-0 en 1" en JavaScript van de JavaScript voor web modules. Dus daar zal niet zo heel diep verder meer op ingegaan worden. SVG is verder nog onbekend dus daar zullen we nu even wat verder op uitbreiden.</p>
+  <img src="../images/d3_components.jpg" class="img-responsive d3_pics" style="width:50%" alt="Image">
+
+  <h3 class="margin">Wat is een SVG?</h3><br>
+  <p>Om te beginnen staat SVG voor Scalable Vector Graphics. Dit is een bestandsformat zoals .jpg, .png of .gif, maar dan met een bijzondere eigenschap! Het is namelijk zo dat de voorgaande soorten plaatjes gebaseerd zijn op pixels, terwijl een SVG gebaseerd is op verhoudingen. Dit is speciaal ontwikkeld voor interactiviteit en animatie. Doordat de plaatjes gemaakt zijn d.m.v. verhoudingen kunnen we bijvoorbeeld een plaatje vergroten zonder dat je die lelijke pixelachtige hoekjes zal zien! Het plaatje hier onder van wikipedia illustreert dat heel goed.</p>
+  <img src="../images/Bitmap_VS_SVG.svg" class="img-responsive d3_pics" style="width:30%" alt="Image">
+  <p>Zoals je ziet in het plaatje hier boven is de S links gebaseerd op pixels, en wordt daarom erg vaag en hoekig op het moment dat we het vergroten. MAAR! Het plaatje rechts blijft mooi glad en ziet er precies hetzelfde uit als de kleine S, maar dan groter. Dat is dus de magie van SVG!</p>
+  <p>Maar dat is niet het enige mooie aan het SVG format. Het wordt namelijk geschreven in een XML text file. Dit betekend dat we binnen het plaatje kunnen zoeken, indexen en scriptjes kunnen schrijven om het aan te passen. Dit is een beetje het moment dat we D3 erbij gaan halen. Want laat het nou net zo zijn dat D3 zich perfect leent voor SVG manipulatie. Je kunt hiermee gemakkelijk in de browser SVG elementen selecteren, maar ook heel simpel zelf maken! In het vervolg van de lesbrief gaan we kijken hoe dit in zijn werking gaat door een SVG plaatje in te laden en te manipuleren. Vervolgens gaan we zelf een plaatje maken!</p>
+
+  <h3 class="margin">Onze eerste D3.js ervaring</h3><br>
+  <p></p>
+  <div id="creeper"></div>
+  <script>
+
+    var svg = d3.select("#creeper").append("svg:svg")
+    .attr("xlink:href", "../images/creeper.svg")
+    .attr("align", "center")
+    .attr("width", "100%")
+    .attr("height", "100%");
+
+    // var g = svg.append("g");
+
+    // var img = g.append("svg:svg")
+    //     .attr("xlink:href", "../images/creeper.svg")
+    //     .attr("align", "center");
+
+
+  </script>
+
+</div>
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p> 
+</footer>
+
+</body>
+</html>

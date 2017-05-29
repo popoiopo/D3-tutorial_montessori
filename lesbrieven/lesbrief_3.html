@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>D3.js module</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../montessori_test.html">D3.js</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="lesbrief_1.html">Lesbrief 1</a></li>
+        <li><a href="lesbrief_2.html">Lesbrief 2</a></li>
+        <li><a href="lesbrief_3.html">Lesbrief 3</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+  <h3 class="margin">Lesbrief 3</h3>
+  <p>Vervolg 2</p>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="../js/functions.js"></script>
+  <h4><strong>Klik op deze tekst!</strong></h4>
+  <svg id="voorbeeld"></svg>
+  <script>
+    teken("voorbeeld");
+  </script>
+</div>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2 text-center">
+  <h3 class="margin">Wat kan je met D3?!</h3>
+  <p>Nou.. Heel veel dus! Er kunnen spelletjes mee gemaakt worden (ookal is dit niet helemaal waar het voor ontwikkeld is), maar ook live feed visualisaties, scatterplots, sunbursts je kan het zo gek niet bedenken! Er is bijvoorbeeld een grote gallerij met allemaal verschillende soorten visualisaties waarvan je de code ook kan zien! Klik hier onder maar, dan kun je het zelf zien.</p>
+  <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank" class="btn btn-default btn-lg">
+    <span class="glyphicon glyphicon-search"></span> Op naar de gallerij!
+  </a>
+</div>
+
+<!-- Third Container (Grid) -->
+<div class="container-fluid bg-3 text-center">
+  <h3 class="margin">Een beetje achtergrond.</h3><br>
+  <p>In 2011 is de D3 JavaScript library ontwikkeld door drie mensen: Jeff Heer, Mike Bostock en Vadim Ogievetsky. Dit deden ze om een beter meer expressief framework te creëren die zich focussed op het web en prestatie.</p>
+  <div class="row">
+    <div class="col-sm-4">
+      <p>Mike Bostock</p>
+      <p>Er zijn heel veel voorbeelden te vinden die door Mike Bostock ontwikkeld zijn. Als je een D3 voorbeeld zoekt is het vrijwel onmogelijk om Mike Bostock niet tegen te komen!</p>
+      <img src="../images/Mike_bostock.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Jeff Heer</p>
+      <p>Jeff Heer was de Proffesor waar Mike Bostock zijn Ph.D. bij deed. Hij geeft momenteel les bij de University of Washington en ziet het als zijn missie om vermogen om communicatie van data te verbeteren bij mensen door design van interactieve data visualisaties te optimaliseren.</p>
+      <img src="../images/Jeff_Heer.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Vadim Ogievetsky</p>
+      <p>Vadim Ogievetsky heeft zijn masters degree in Computer Science gehaald onder Jeff Heer, en heeft ook meerdere keren gesproken over D3 bij onder andere de Universiteiten van Berkeley, Harvard en Stanford! </p>
+      <img src="../images/Vadim_Ogievetsky.jpg" class="img-responsive" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div>
+<!-- <script type="text/javascript">
+  teken("#voorbeeld");
+</script>
+ --><!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p> 
+</footer>
+
+</body>
+</html>
