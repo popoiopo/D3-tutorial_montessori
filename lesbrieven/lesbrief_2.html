@@ -10,6 +10,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/codeblock.css">
+  <script src="../js/codeblock.js"></script>
 </head>
 <body>
 
@@ -37,51 +39,245 @@
 <!-- First Container -->
 <div class="container-fluid bg-1 text-center">
   <h3 class="margin">Lesbrief 2</h3>
-  <p>D3.js is een library die een link vormt tussen HTML5, JavaScript, CSS (deze kennen jullie al) en SVG waar we later dieper op in gaan. D3 staat voor <strong>Data Driven Documents</strong>. Dit betekent dat de visualisaties gemaakt met D3 zo "losjes" geschreven zijn dat je er andere datasets in kan zetten en de visualisaties vervolgens op dynamische wijze zichzelf aanpassen aan je data (zie scatterplot hier onder).</p>
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="../js/functions.js"></script>
-  <h4><strong>Klik op deze tekst!</strong></h4>
-  <h2></h2>
+  <p>In deze lesbrief gaan we voor het eerst zelf SVG elementen aanmaken! Maar eerst nog een voorbeeld van een implementatie in D3.js, zoals we aan het begin van elke lesbrief doen. Zoals te verwachten is de grafiek hier onder van de grote held Mike Bostock met zijn <a href="https://bl.ocks.org/mbostock/4062045">Force Directed Graph</a>! </p>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/force_directed.js"></script>
+  <svg class="force_svg" width="960" height="600"></svg>
   <script>
-    draw_scatter();
+    force_directed(".force_svg");
   </script>
 </div>
 
 <!-- Second Container -->
 <div class="container-fluid bg-2 text-center">
-  <h3 class="margin">Wat kan je met D3?!</h3>
-  <p>Nou.. Heel veel dus! Er kunnen spelletjes mee gemaakt worden (ookal is dit niet helemaal waar het voor ontwikkeld is), maar ook live feed visualisaties, scatterplots, sunbursts je kan het zo gek niet bedenken! Er is bijvoorbeeld een grote gallerij met allemaal verschillende soorten visualisaties waarvan je de code ook kan zien! Klik hier onder maar, dan kun je het zelf zien.</p>
-  <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank" class="btn btn-default btn-lg">
-    <span class="glyphicon glyphicon-search"></span> Op naar de gallerij!
+  <h3 class="margin">Version Control</h3>
+  <p>Op dit moment wordt er druk gewerkt aan D3! Dat betekent wel dat de laatste versie mogelijk wat instabiel is. Dit houdt in dat de code die je vandaag in versie vier schrijft, mogelijk over een jaar niet meer werkt omdat bepaalde functies anders genoemd zijn. Hierdoor gebruiken wij voorlopig nog even de stabiele versie 3, en gaan we aan het eind van de module in op versie 4 en de verschillen tussen de versies. Hou dus in je achterhoofd dat als je op internet gaat kijken naar voorbeelden dat sommige voorbeelden in versie 3 en sommige in versie 4 staan! (Zo is het voorbeeld hierboven in versie 4 geschreven.) Mocht je alvast benieuwd zijn naar de veranderingen tussen de versies kan je op de knop hier onder klikken.</p>
+  <a href="https://github.com/d3/d3/blob/master/CHANGES.md" target="_blank" class="btn btn-default btn-lg">
+    <span class="glyphicon glyphicon-search"></span> D3 veranderingen v3/v4
   </a>
 </div>
 
 <!-- Third Container (Grid) -->
 <div class="container-fluid bg-3 text-center">
-  <h3 class="margin">Een beetje achtergrond.</h3><br>
-  <p>In 2011 is de D3 JavaScript library ontwikkeld door drie mensen: Jeff Heer, Mike Bostock en Vadim Ogievetsky. Dit deden ze om een beter meer expressief framework te creëren die zich focussed op het web en prestatie.</p>
-  <div class="row">
-    <div class="col-sm-4">
-      <p>Mike Bostock</p>
-      <p>Er zijn heel veel voorbeelden te vinden die door Mike Bostock ontwikkeld zijn. Als je een D3 voorbeeld zoekt is het vrijwel onmogelijk om Mike Bostock niet tegen te komen!</p>
-      <img src="../images/Mike_bostock.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
-    <div class="col-sm-4">
-      <p>Jeff Heer</p>
-      <p>Jeff Heer was de Proffesor waar Mike Bostock zijn Ph.D. bij deed. Hij geeft momenteel les bij de University of Washington en ziet het als zijn missie om vermogen om communicatie van data te verbeteren bij mensen door design van interactieve data visualisaties te optimaliseren.</p>
-      <img src="../images/Jeff_Heer.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
-    <div class="col-sm-4">
-      <p>Vadim Ogievetsky</p>
-      <p>Vadim Ogievetsky heeft zijn masters degree in Computer Science gehaald onder Jeff Heer, en heeft ook meerdere keren gesproken over D3 bij onder andere de Universiteiten van Berkeley, Harvard en Stanford! </p>
-      <img src="../images/Vadim_Ogievetsky.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
-  </div>
-</div>
-<!-- <script type="text/javascript">
-  teken("#voorbeeld");
+  <h3 class="margin">Zelf SVG's maken!</h3><br>
+  <p>Zoals al eerder gezegd gaan we in deze lesbrief zelf SVG elementen maken m.b.v. D3.js. Maar eerst gaan we even kijken naar hoe we een SVG kunnen maken in gewoon HTML. Bij deze voorbeelden heb ik de SVG's een border gegeven, zodat je kunt zien hoe groot het element is.</p>
+
+  <figure>
+        <figcaption id="example1-caption">Voorbeeld SVG</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>&lt;!DOCTYPE html&gt;</b>
+    <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+    <b>&lt;html&gt;</b>
+    <b>&lt;head&gt;</b>
+      <b>&lt;title&gt;</b>SVG, voorbeeld<b>&lt;/title&gt;</b>
+    <b>&lt;/head&gt;</b>
+    <b>&lt;body&gt;</b>
+      <i>&lt;!-- Een SVG element --&gt;</i>
+      <b>&lt;svg&gt;</b>
+        <i>&lt;!-- Met erin een rect van 100 bij 100 px --&gt;</i>
+        <i>&lt;!-- rect staat voor rectangle, wat rechthoek betekent --&gt;</i>
+        <b>&lt;rect width=</b><u>"100"</u> <b>height=</b><u>"100"</u> <b>&gt;&lt;/rect&gt;</b>
+      <b>&lt;/svg&gt;</b>
+    <b>&lt;/body&gt;</b>
+    <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+  <p><small>Een rechthoek van 100x100 pixels!</small></p>
+  <svg style="border: 1px solid black;">
+    <rect width="100" height="100" ></rect>
+  </svg>
+
+  <p>We hebben nu een rect gemaakt! Er is alleen één groot probleem, als we de rect groter maken (probeer maar!). Als je de rect bijvoorbeeld 250 bij 250 pixel maakt, zie je helemaal geen vierkant maar een rechthoek. Dit komt omdat we de SVG zelf geen grootte hebben gegeven. Op het moment dat je dit vergeet geeft de browser zelf een hoogte aan je SVG waardoor het tekengebied voor je rect als het ware beperkt wordt. Als je de SVG zelf ook een height en een width mee geeft kan je zien dat we dan wel een mooi vierkantje krijgen!</p>
+
+  <p><small>Zoals je ziet is dit geen mooi vierkantje, terwijl hij wel de afmeting 250x250 heeft!</small></p>
+
+  <svg style="border: 1px solid black;">
+    <rect width="250" height="250" ></rect>
+  </svg>
+
+   <figure>
+        <figcaption id="example1-caption">Voorbeeld SVG2</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>&lt;!DOCTYPE html&gt;</b>
+    <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+    <b>&lt;html&gt;</b>
+    <b>&lt;head&gt;</b>
+      <b>&lt;title&gt;</b>SVG, voorbeeld<b>&lt;/title&gt;</b>
+    <b>&lt;/head&gt;</b>
+    <b>&lt;body&gt;</b>
+      <i>&lt;!-- Een SVG element met hoogte/breedte 250px  --&gt;</i>
+      <b>&lt;svg width=</b><u>"250"</u> <b>height=</b><u>"250"</u> <b>&gt;</b>
+        <i>&lt;!-- Met erin een rect van 250 bij 250 px --&gt;</i>
+        <i>&lt;!-- rect staat voor rectangle, wat rechthoek betekent --&gt;</i>
+        <b>&lt;rect width=</b><u>"250"</u> <b>height=</b><u>"250"</u> <b>&gt;&lt;/rect&gt;</b>
+      <b>&lt;/svg&gt;</b>
+    <b>&lt;/body&gt;</b>
+    <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+
+  <p><small>Nu we een grootte aan de SVG zelf hebben gegeven zie je dat de rect nu wel mooi vierkant is.</small></p>
+  <svg width="250" height="250" style="border: 1px solid black;">
+    <rect width="250" height="250" ></rect>
+  </svg>
+
+  <p>Nu we dit weten kunnen we zelfs wat coördinaten mee geven! Als we bijvoorbeeld een tekengebied willen van 250 bij 250 pixels, en een vierkantje (10x10px) willen in de linker bovenhoek gaat dat bijvoorbeeld zo.</p>
+
+  <figure>
+        <figcaption id="example1-caption">Voorbeeld SVG3</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>&lt;!DOCTYPE html&gt;</b>
+    <b>&lt;html&gt;</b>
+    <b>&lt;head&gt;</b>
+      <b>&lt;title&gt;</b>SVG, voorbeeld coördinaten<b>&lt;/title&gt;</b>
+    <b>&lt;/head&gt;</b>
+    <b>&lt;body&gt;</b>
+      <i>&lt;!-- Een SVG element met hoogte/breedte 250px  --&gt;</i>
+      <b>&lt;svg width=</b><u>"250"</u> <b>height=</b><u>"250"</u> <b>&gt;</b>
+        <i>&lt;!-- Met erin een rect van 250 bij 250 px --&gt;</i>
+        <i>&lt;!-- rect staat voor rectangle, wat rechthoek betekent --&gt;</i>
+        <b>&lt;rect x=</b><u>"10"</u> <b>y=</b><u>"10"</u> <b>width=</b><u>"10"</u> <b>height=</b><u>"10"</u> <b>&gt;&lt;/rect&gt;</b>
+      <b>&lt;/svg&gt;</b>
+    <b>&lt;/body&gt;</b>
+    <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+
+  <p><small>Zoals je kunt zien hebben we het blokje nu 10 pixels naar beneden en 10 pixels naar rechts gezet! Anders zou hij op het zelfde plekje staan als het groene blokje.</small></p>
+  <svg width="250" height="250" style="border: 1px solid black;">
+    <rect fill="green" width="10" height="10" ></rect>
+    <rect x="10" y="10" width="10" height="10" ></rect>
+  </svg>
+
+  <p>Nu we blokjes kunnen maken, kunnen we deze vervolgens ook gaan kleuren. Zo kunnen we bijvoorbeeld een simpele versie van het windows logo na maken.</p>
+
+    <figure>
+        <figcaption id="example1-caption">Voorbeeld SVG4</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>&lt;!DOCTYPE html&gt;</b>
+    <b>&lt;html&gt;</b>
+    <b>&lt;head&gt;</b>
+      <b>&lt;title&gt;</b>SVG, voorbeeld kleuren<b>&lt;/title&gt;</b>
+    <b>&lt;/head&gt;</b>
+    <b>&lt;body&gt;</b>
+      <i>&lt;!-- Een SVG element met hoogte/breedte 250px  --&gt;</i>
+      <b>&lt;svg width=</b><u>"250"</u> <b>height=</b><u>"250"</u> <b>&gt;</b>
+        <i>&lt;!-- Met erin een rect van 250 bij 250 px --&gt;</i>
+        <i>&lt;!-- rect staat voor rectangle, wat rechthoek betekent --&gt;</i>
+        <b>&lt;rect x=</b><u>"0"</u> <b>y=</b><u>"0"</u> <b>width=</b><u>"100"</u> <b>height=</b><u>"100"</u> <b>fill=</b><u>"red"</u> <b>&gt;&lt;/rect&gt;</b>
+        <b>&lt;rect x=</b><u>"120"</u> <b>y=</b><u>"0"</u> <b>width=</b><u>"100"</u> <b>height=</b><u>"100"</u> <b>fill=</b><u>"green"</u> <b>&gt;&lt;/rect&gt;</b>
+        <b>&lt;rect x=</b><u>"0"</u> <b>y=</b><u>"120"</u> <b>width=</b><u>"100"</u> <b>height=</b><u>"100"</u> <b>fill=</b><u>"blue"</u> <b>&gt;&lt;/rect&gt;</b>
+        <b>&lt;rect x=</b><u>"120"</u> <b>y=</b><u>"120"</u> <b>width=</b><u>"100"</u> <b>height=</b><u>"100"</u> <b>fill=</b><u>"yellow"</u> <b>&gt;&lt;/rect&gt;</b>
+      <b>&lt;/svg&gt;</b>
+    <b>&lt;/body&gt;</b>
+    <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+
+  <p><small>Nu we blokjes kunnen kleuren en verplaatsen kunnen we al een soort logo maken.</small></s></p>
+  <svg width="250" height="250"">
+    <rect x="10" y="0" width="100" height="100" fill="red" ></rect>
+    <rect x="130" y="0" width="100" height="100" fill="green" ></rect>
+    <rect x="10" y="120" width="100" height="100" fill="blue" ></rect>
+    <rect x="130" y="120" width="100" height="100" fill="yellow" ></rect>
+  </svg>
+
+  <p>Maar wat in HTML kan, kunnen we ook in D3! Als we het in het vervolg hebben over code gaat het voortaan over JavaScript. Je HTML zal er dus vervolgens zo uit zien:</p>
+
+  <figure>
+      <figcaption id="example1-caption">index.html</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false">
+<b>&lt;!DOCTYPE html&gt;</b>
+<i>&lt;!-- Dit is de template voor de komende HTML opdrachten --&gt;</i>
+<b>&lt;html&gt;</b>
+<b>&lt;head&gt;</b>
+  <b>&lt;title&gt;</b>D3 HTML voorbeelden<b>&lt;/title&gt;</b>
+  <i>&lt;!-- D3 inladen --&gt;</i>
+  <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
+  <b>&lt;<strong>script</strong> src</b>=<u>"js/mijn_code.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+<b>&lt;/head&gt;</b>
+<b>&lt;body&gt;</b>
+  <i>&lt;!-- De div die we straks nodig hebben om voorbeeld aan te appenden. --&gt;</i>
+  <b>&lt;div id=</b><u>"voorbeeld"</u><b>&gt;&lt;div&gt;</b>
+<b>&lt;/body&gt;</b>
+<b>&lt;/html&gt;</b>
+</code></pre>
+    </figure>
+
+<p>Nu we een template HTML pagina hebben, kunnen we ons verdiepen in JavaScript. Zo gaan we nu eerst een blok maken op onze pagina.</p>
+
+  <figure>
+      <figcaption id="example1-caption">script.js</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false">
+  <b>// Maak de SVG container</b>
+  <strong>var</strong> svgContainer <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+    .attr(<u>"width"</u>, 200</b>)
+    .attr(<u>"height"</u>, 200</b>);
+  <b>// Teken de rechthoek</b>
+  <strong>var</strong> rectangle <b>=</b> svgContainer.append(<u>"rect"</u>)
+    .attr(<u>"x"</u>, <b>150</b>)
+    .attr(<u>"y"</u>, <b>50</b>)
+    .attr(<u>"width"</u>, <b>50</b>)
+    .attr(<u>"height"</u>, <b>140</b>);
+</code></pre>
+    </figure>
+
+  <div id="voorbeeld"><div>
+
+  <script type="text/javascript">
+  function container_rect(container) {
+  //make the svg container
+  var svgContainer = d3.select(container).append("svg")
+    .attr("width", 200)
+    .attr("height", 200);
+  //make the rectangle
+  var rectangle = svgContainer.append("rect")
+    .attr("x", 150)
+    .attr("y", 50)
+    .attr("width", 50)
+    .attr("height", 140);
+  }
+
+  container_rect("#voorbeeld");
 </script>
- --><!-- Footer -->
+
+<h1 class="margin">Opdrachten</h1>
+<p>Opdracht 1:<br>
+<small>Maak voor deze opdracht het windows logo na met D3, die we hiervoor met HTML hebben gemaakt.</strong></small></p>
+
+</div>
+<!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
   <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p> 
 </footer>

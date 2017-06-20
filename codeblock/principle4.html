@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8" />
+ 	<meta name="viewport" content="width=device-width" />
+
+	<title>Code Example Demo &#x2014; Principle 4</title>
+	
+	<script type="text/javascript">
+	(function()
+	{
+		for(var tags = ['main','figure','figcaption'], i = 0; i < tags.length; i ++)
+		{
+			document.createElement(tags[i]);
+		}
+	})();
+	</script>
+
+	<style type="text/css">
+
+	html, body
+	{
+		margin:0;
+		padding:0;
+		
+		background:#f5f5f5;
+		color:#444;
+		
+		font:normal normal normal 100%/1.4 georgia, serif;
+	}
+	main
+	{
+		display:block;
+		
+		width:55%;
+		min-width:18em;
+		margin:2em auto;
+	}
+
+
+
+	figure
+	{
+		display:block;
+		
+		margin:1em 0;
+
+		border:1px solid #ccc;
+		border-radius:3px;
+
+		background:#eee;
+	}
+	
+	figure figcaption
+	{
+		display:block;
+		
+		padding:5px 10px 4px 10px;
+
+		border-bottom:1px solid #ccc;
+		border-radius:3px 3px 0 0;
+		
+		font-weight:bold;
+		
+		background:#ddd;
+		color:#777;
+	}
+	
+	
+	
+	pre, pre code, pre samp
+	{
+		display:block;
+		margin:0;
+		
+		cursor:text;
+		
+		font:normal normal normal 1em/1.4 monaco, courier, monospace;
+	}
+	pre
+	{
+		padding:10px;
+
+		font-size:0.8em;
+
+		-moz-tab-size:4;
+		-o-tab-size:4;
+		tab-size:4;
+		
+		/* horizontal scrolling only when required */
+		overflow-x:auto;
+	}
+	
+	/* negate horizontal scrolling for print and compensate with pre-wrap */
+	@media print
+	{
+		pre
+		{
+			overflow-x:visible;
+			white-space:pre-wrap;
+		}
+	}
+	
+	
+	
+	pre b
+	{
+		font-weight:normal;
+		color:#039;
+	}
+	pre u, pre u b
+	{
+		text-decoration:none;
+		color:#083;
+	}
+	pre i, pre i *, pre i * *
+	{
+		letter-spacing:-0.1em;
+		text-decoration:none;
+		font-style:normal;
+		color:#c55;
+	}
+
+	</style>
+
+</head>
+<body>
+
+	<main>
+	
+		<p id="example1-description">
+			This is the descriptive text that comes before the code example, 
+			talking about whatever the code is an example of:
+		</p>
+
+		<figure>
+			<figcaption id="example1-caption">This is the caption</figcaption>
+<pre 
+	aria-describedby="example1-description" 
+	aria-labelledby="example1-caption"><code><i>//try to get to sleep unless there's too much noise in the room</i>
+<b>function</b> getToSleep()
+{
+	<b>while</b>(noise &lt;= 10 &amp;&amp; sleep !== <u>"zzz"</u>)
+	{
+		sheep ++;
+	}
+	<b>if</b>(noise &gt; 10)
+	{
+		<b>return</b> <b>false</b>;
+	}
+	<b>return</b> <b>true</b>;
+}</code></pre>
+		</figure>
+
+	</main>
+
+</body>
+</html>

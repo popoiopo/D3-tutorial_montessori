@@ -72,3 +72,26 @@ p {font-size: 16px;
     margin-top: 25px;
     margin-bottom: 25px;
 }
+
+#wrapper {
+    text-align: center;
+}
+
+.wrapper_first {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.wrapper_second {
+    display: inline-block;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}

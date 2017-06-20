@@ -10,6 +10,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/codeblock.css">
+  <script src="../js/codeblock.js"></script>
 </head>
 <body>
 
@@ -39,7 +41,7 @@
   <h3 class="margin">Lesbrief 1</h3>
   <p>In deze lesbrief gaan we de basics van D3 behandelen. Maar eerst laten we voortaan altijd aan het begin van de lesbrief een visualisatie zien, om de mogelijkheden van D3 te illustreren! Hier over zie je bijvoorbeeld een spelletje die gemaakt is, enkel met D3!</p>
   <svg id="game"></svg>
-  <h4><strong>Auteur: wenchao jiang <br> Git repo: https://github.com/wenchaojiang/d3game </strong></h4>
+  <h4><strong>Auteur: wenchao jiang <br> <a href="https://github.com/wenchaojiang/d3game">Zo ziet de code eruit</a>. </strong></h4>
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="../js/d3_games.js" ></script>
@@ -58,30 +60,185 @@
   <p>Maar dat is niet het enige mooie aan het SVG format. Het wordt namelijk geschreven in een XML text file. Dit betekend dat we binnen het plaatje kunnen zoeken, indexen en scriptjes kunnen schrijven om het aan te passen. Dit is een beetje het moment dat we D3 erbij gaan halen. Want laat het nou net zo zijn dat D3 zich perfect leent voor SVG manipulatie. Je kunt hiermee gemakkelijk in de browser SVG elementen selecteren, maar ook heel simpel zelf maken! In het vervolg van de lesbrief gaan we kijken hoe dit in zijn werking gaat door een SVG plaatje in te laden en te manipuleren. Vervolgens gaan we zelf een plaatje maken!</p>
 
   <h3 class="margin">Onze eerste D3.js ervaring</h3><br>
-  <p></p>
-  <div id="creeper"></div>
+  <p>In dit gedeelte gaan we een SVG inladen en vervolgens d.m.v. JavaScript inkleuren. We gaan namelijk een creeper van minecraft inladen! Maar voordat we dit kunnen d.m.v. D3 moeten we wel eerst de library inladen van D3 in onze HTML, en een local host maken. Voor het inladen van D3 beginnen we met een Lege HTML en moeten we twee JavaScript scripts inlezen, namelijk de D3 library en je eigen JavaScript code!</p>
+
+<figure>
+      <figcaption id="example1-caption">index.html</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false">
+<b>&lt;!DOCTYPE html&gt;</b>
+<i>&lt;!-- Zoals altijd beginnen we met een HTML pagina --&gt;</i>
+<b>&lt;html&gt;</b>
+<b>&lt;head&gt;</b>
+  <b>&lt;title&gt;</b>D3 inladen, voorbeeld<b>&lt;/title&gt;</b>
+  <i>&lt;!-- Hier laden we D3 in via het internet. Zet in te laden libraries altijd in de head! --&gt;</i>
+  <i>&lt;!-- We laden libraries hier, omdat de head altijd eerst geladen wordt en dan de body. --&gt;</i>
+  <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <i>&lt;!-- En natuurlijk je JavaScript code extern inladen! --&gt;</i>
+  <b>&lt;<strong>script</strong> src</b>=<u>"js/mijn_code.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+<b>&lt;/head&gt;</b>
+<b>&lt;body&gt;</b>
+  <i>&lt;!-- De div die we straks nodig hebben om onze creeper aan te appenden. --&gt;</i>
+  <b>&lt;div id=</b><u>"creeper"</u><b>&gt;&lt;div&gt;</b>
+<b>&lt;/body&gt;</b>
+<b>&lt;/html&gt;</b>
+</code></pre>
+    </figure>
+
+<p>Nu we D3.js ingeladen hebben, moeten we een local host maken. Dit zodat je je site kan testen (ook offline). Zonder deze localhost kan D3 niet goed functioneren! Als je python goed hebt gedownload op je computer kan je de volgende file aanmaken. server.bat is een executable file die d.m.v. python een local host maakt. Als je dus dubbel klikt op de file opent hij het automatisch! Als de .bat file niet werkt, kan je ook altijd de code plakken in je terminal en het daar runnen.</p>
+
+<figure>
+      <figcaption id="example1-caption">server.bat</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false"><i># Dit simpele stukje code fungeert als een server!</i>
+  python -m SimpleHTTPServer 8888 &amp;
+</code></pre>
+    </figure>
+
+<p>Als je server.bat in dezelfde map zet als je index.html kan je in je browser gewoon localhost:8888 typen en dan kom je aan bij je site! Dan zijn we nu klaar om verder te gaan.</p>
+
+<p>Hier onder zie je de creeper die we gaan inladen! Als je het element van de svg inspecteert (rechter muisknop op het plaatje en dan inspecteren) dan kan je zien dat het plaatje onderverdeelt is in verschillende elementen met eigen id's. Dit zijn id's als "hoofd", "rechter_oog", "linker_oog" en "mond". Deze kunnen we vervolgens selecteren om de kleur, grootte etc. van te veranderen. Hoe dat inladen precies gaat bekijken we in de code hier onder. <a target="_blank" href="../images/creeper.svg" title="download svg file">Klik hier om naar de SVG file te gaan en dan rechter muisknop, opslaan als, om te downloaden!</a> Zorg dat creeper.svg ook in dezelfde map zit als index.html!</p>
+
+  <div id="creeper" class="d3_pics"></div>
   <script>
 
-    var svg = d3.select("#creeper").append("svg:svg")
-    .attr("xlink:href", "../images/creeper.svg")
-    .attr("align", "center")
-    .attr("width", "100%")
-    .attr("height", "100%");
-
-    // var g = svg.append("g");
-
-    // var img = g.append("svg:svg")
-    //     .attr("xlink:href", "../images/creeper.svg")
-    //     .attr("align", "center");
-
+    d3.xml("../images/creeper.svg").mimeType("image/svg+xml").get(function(error, xml) {
+      if (error) throw error;
+      var creeper = d3.select("#creeper");
+      var svgNode = xml.getElementsByTagName("svg")[0];
+      creeper.node().appendChild(svgNode);
+      creeper.style("width", "40%");
+    });
 
   </script>
+
+  <h4>Deze SVG is ingeladen met de volgende JavaScript code:</h4>
+  <p><small>Let wel op dat je D3 goed hebt ingeladen en een local host aan hebt staan!</small></p>
+
+<figure>
+<figcaption id="example1-caption">script.js</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false"><i>//Dit stukje code laad het plaatje in.</i>
+d3.xml(<u>"../images/creeper.svg"</u>).mimeType(<u>"image/svg+xml"</u>).get(function(error, xml) {
+
+  <i>//Check of het inladen goed is gegaan.</i>
+  <b>if</b> (error) <b>throw</b> error;
+  <i>//Selecteer de div waar we het plaatje in gaan appenden</i>
+  var creeper = d3.<b>select</b>(<u>"#creeper"</u>);
+  <i>//Haal alle "svg" elementen uit het ingeladen plaatje.</i>
+  var svgNode = xml.<b>getElementsByTagName</b>(<u>"svg"</u>)[<b>0</b>];
+  <i>//Plak vervolgens het de SVG in de div.</i>
+  creeper.node().<b>appendChild</b>(svgNode);
+  <i>//Pas de width van het plaatje aan om het minder groot te laten zijn.</i>
+  creeper.style(<u>"width"</u>, <u>"40%"</u>);
+
+});
+</code></pre>
+    </figure>
+
+<p>Nu we het plaatje ingeladen hebben kunnen we verder gaan met het manipuleren van het plaatje. Je weet als het goed is al hoe dit moet door de "JavaScript voor web-1" module! Maar D3.js maakt ons leven iets makkelijker, hoewel het wel net wat andere syntax heeft die je moet leren. Zo laat ik hier onder eerst de JavaScript manier zien, en daarna een D3 manier om de ogen etc te kleuren. <small>let wel, de volgende code moet binnen de d3.xml() { <u><i>dus de nieuwe code hoort binnen deze haakjes onderaan het stuk van inladen</i></u> } functie zitten in de vorige code.</small></p>
+
+<figure>
+<figcaption id="example1-caption">script.js</figcaption>
+<pre
+  aria-describedby="example1-description"
+  aria-labelledby="example1-caption"><code
+  contenteditable="true"
+  tabindex="0"
+  spellcheck="false">
+  <i>//Hoe het werkt in Javascript.</i>
+  <strong>var</strong> linker_oog <b>= document</b>.<b>getElementById</b>(<u>"linker_oog"</u>).style.fill = <u>"red"</u>;
+  <i>//Hoe het werkt in D3.</i>
+  <strong>var</strong> mond = d3.<b>select</b>(<u>"#mond"</u>).style(<u>"fill"</u>, <u>"red"</u>);
+
+</code></pre>
+    </figure>
+
+<div id="creeper_color" class="d3_pics"></div>
+
+<script>
+
+  d3.xml("../images/creeper.svg").mimeType("image/svg+xml").get(function(error, xml) {
+    if (error) throw error;
+    var creeper = d3.select("#creeper_color");
+    var svgNode = xml.getElementsByTagName("svg")[0];
+    creeper.node().appendChild(svgNode);
+    creeper.style("width", "40%");
+
+    var linker_oog = document.getElementById("creeper_color").querySelector("#linker_oog");
+    linker_oog.style.fill = "yellow";
+    d3.select("#creeper_color #mond").style("fill", "red");
+  });
+
+</script>
+
+<h1 class="margin">Opdrachten</h1>
+<p>Opdracht 1:<br>
+<small>Hier onder zie je een minecraft persoon. <a target="_blank" href="../images/creeper.svg" title="download svg file">Klik hier om de SVG te downloaden!</a> Kleur vervolgens d.m.v. D3 de elementen binnen deze SVG. Rechts zie je een ingekleurd voorbeeld, links is de te downloaden SVG. <strong>Tip: Gebruik voor de lichaamsdelen en kleuren een array, en loop hierdoor om de elementen te kleuren.</strong></small></p>
+<div id="wrapper">
+  <div id="minecraft_person_white" class="d3_pics wrapper_first"></div>
+  <div id="minecraft_person" class="d3_pics wrapper_second"></div>
+</div>
+<script>
+var lichaamsdelen = ["#broek", "#t_shirt", "#linker_oog_wit", "#rechter_oog_wit", "#linker_oog_kleur", "#rechter_oog_kleur", "#neus", "#mond_persoon", "#haar", "#gezicht", "#linker_schoen", "#rechter_schoen", "#linker_arm", "#rechter_arm"];
+var kleuren = ["purple", "red", "white", "white", "steelblue", "steelblue", "brown", "brown", "yellow", "green", "black", "white", "brown", "brown"];
+  d3.xml("../images/minecraft_person.svg").mimeType("image/svg+xml").get(function(error, xml) {
+    if (error) throw error;
+    var creeper = d3.select("#minecraft_person");
+    var svgNode = xml.getElementsByTagName("svg")[0];
+    creeper.node().appendChild(svgNode);
+    creeper.style("width", "20%");
+    for (var i = lichaamsdelen.length - 1; i >= 0; i--) {
+      d3.select(lichaamsdelen[i]).style("fill", kleuren[i]);
+    }
+
+  });
+
+d3.xml("../images/minecraft_person.svg").mimeType("image/svg+xml").get(function(error, xml) {
+    if (error) throw error;
+    var creeper = d3.select("#minecraft_person_white");
+    var svgNode = xml.getElementsByTagName("svg")[0];
+    creeper.node().appendChild(svgNode);
+    creeper.style("width", "20%");
+});
+</script>
+
+<p>Opdracht 2:<br>
+<small>Hier onder zie je een wereldkaart. <a target="_blank" href="../images/world.svg" title="download svg file">Klik hier om de SVG te downloaden!</a> Zoals je ziet zijn alle landen saai en grijs! Kijk naar de ID's van de landen (element inspecteren weet je nog?!) en verander van minstens 10 landen de kleuren. Welke mag je zelf weten. Verder moet je nog minstens één extra attribuut veranderen. Denk hierbij aan opacity (doorzichtigheid), stroke-width (dikte van lijnen), stroke (kleur van de lijnen) etc. <strong>Tip: <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute">Hier vind je een hele lijst van alle attributes die je op een SVG kan toepassen</a>. Kijk er maar doorheen en kies er een uit!</strong></small></p>
+<div id="world" class="d3_pics"></div>
+<script>
+
+d3.xml("../images/world.svg").mimeType("image/svg+xml").get(function(error, xml) {
+    if (error) throw error;
+    var world = d3.select("#world");
+    var svgNode = xml.getElementsByTagName("svg")[0];
+    world.node().appendChild(svgNode);
+    d3.select("#svg2").style("width", "90%").style("max-height", "400px");
+
+    var wereld = d3.select("#CA");
+    wereld.style("fill", "red");
+    var usa = d3.select("#US");
+    usa.attr("stroke-width", "10px").attr("stroke", "purple").attr("opacity", "0.6");
+});
+</script>
 
 </div>
 <!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
-  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p> 
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p>
 </footer>
-
+<script src="../js/codeblock_post.js"></script>
 </body>
 </html>
