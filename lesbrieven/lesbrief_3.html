@@ -7,9 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="//code.jquery.com/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/codeblock.css">
+  <link rel="stylesheet" href="../css/style_solar.css">
+  <script src="../js/codeblock.js"></script>
 </head>
 <body>
 
@@ -26,9 +30,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="lesbrief_1.html">Lesbrief 1</a></li>
-        <li><a href="lesbrief_2.html">Lesbrief 2</a></li>
-        <li><a href="lesbrief_3.html">Lesbrief 3</a></li>
+        <li><a href="../lesbrieven/lesbrief_1.html">Lesbrief 1</a></li>
+        <li><a href="../lesbrieven/lesbrief_2.html">Lesbrief 2</a></li>
+        <li><a href="../lesbrieven/lesbrief_3.html">Lesbrief 3</a></li>
       </ul>
     </div>
   </div>
@@ -37,53 +41,160 @@
 <!-- First Container -->
 <div class="container-fluid bg-1 text-center">
   <h3 class="margin">Lesbrief 3</h3>
-  <p>Vervolg 2</p>
-  <script src="https://d3js.org/d3.v3.min.js"></script>
-  <script src="../js/functions.js"></script>
-  <h4><strong>Klik op deze tekst!</strong></h4>
-  <svg id="voorbeeld"></svg>
+  <p>Wederom beginnen we met een voorbeeld van D3.js, en zoals je misschien al verwacht is dit voorbeeld van Mike Bostock met zijn <a href="https://bl.ocks.org/mbostock/1353700">Epicyclic Gearing</a>! In deze lesbrief duiken we dieper in op de wondere wereld van D3.js. Zo gaan we bijvoorbeeld kijken hoe selecties werken, en gaan onze eerst echte barchart maken!</p>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../js/gear_of_solar.js"></script>
+  <form style="text-align:left; margin-left:15%; margin-top:25px;">
+    <input type="radio" name="reference" id="ref-annulus">
+    <label for="ref-annulus">Annulus</label><br>
+    <input type="radio" name="reference" id="ref-planet" checked>
+    <label for="ref-planet">Planets</label><br>
+    <input type="radio" name="reference" id="ref-sun">
+    <label for="ref-sun">Sun</label>
+  </form>
+  <svg class="solar_gears" width="960" height="600"></svg>
   <script>
-    teken("voorbeeld");
+    solar_gears(".solar_gears");
   </script>
 </div>
 
-<!-- Second Container -->
-<div class="container-fluid bg-2 text-center">
-  <h3 class="margin">Wat kan je met D3?!</h3>
-  <p>Nou.. Heel veel dus! Er kunnen spelletjes mee gemaakt worden (ookal is dit niet helemaal waar het voor ontwikkeld is), maar ook live feed visualisaties, scatterplots, sunbursts je kan het zo gek niet bedenken! Er is bijvoorbeeld een grote gallerij met allemaal verschillende soorten visualisaties waarvan je de code ook kan zien! Klik hier onder maar, dan kun je het zelf zien.</p>
-  <a href="https://github.com/d3/d3/wiki/Gallery" target="_blank" class="btn btn-default btn-lg">
-    <span class="glyphicon glyphicon-search"></span> Op naar de gallerij!
-  </a>
-</div>
+<!-- Second Container (Grid) -->
+<div class="container-fluid bg-5 text-center">
+  <h3 class="margin">Een korte uitbreiding op selecties</h3><br>
+  <p>Nu we zelf een SVG kunnen maken, is het misschien zaak om wat beter te begrijpen hoe het selecteren van dingen nou precies werkt. Zo kunnen weten we beter wat we er mee kunnen natuurlijk! We hebben bijvoorbeeld d3.select() en d3.selectAll() al gezien. De eerste maakt een selectie van het eerste element dat er gevonden kan worden in de DOM met een bepaalde specificatie (tagg/ID/class etc). En de tweede geeft een array terug van alle elementen die voldoen aan de criteria. Er wordt verwacht dat je alle code zelf overneemt en zelf een beetje gaat spelen met de code. Hier onder zie je code die demonstreren hoe bepaalde selecties werken.</p>
 
-<!-- Third Container (Grid) -->
-<div class="container-fluid bg-3 text-center">
-  <h3 class="margin">Een beetje achtergrond.</h3><br>
-  <p>In 2011 is de D3 JavaScript library ontwikkeld door drie mensen: Jeff Heer, Mike Bostock en Vadim Ogievetsky. Dit deden ze om een beter meer expressief framework te creëren die zich focussed op het web en prestatie.</p>
   <div class="row">
-    <div class="col-sm-4">
-      <p>Mike Bostock</p>
-      <p>Er zijn heel veel voorbeelden te vinden die door Mike Bostock ontwikkeld zijn. Als je een D3 voorbeeld zoekt is het vrijwel onmogelijk om Mike Bostock niet tegen te komen!</p>
-      <img src="../images/Mike_bostock.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
-    <div class="col-sm-4">
-      <p>Jeff Heer</p>
-      <p>Jeff Heer was de Proffesor waar Mike Bostock zijn Ph.D. bij deed. Hij geeft momenteel les bij de University of Washington en ziet het als zijn missie om vermogen om communicatie van data te verbeteren bij mensen door design van interactieve data visualisaties te optimaliseren.</p>
-      <img src="../images/Jeff_Heer.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
-    <div class="col-sm-4">
-      <p>Vadim Ogievetsky</p>
-      <p>Vadim Ogievetsky heeft zijn masters degree in Computer Science gehaald onder Jeff Heer, en heeft ook meerdere keren gesproken over D3 bij onder andere de Universiteiten van Berkeley, Harvard en Stanford! </p>
-      <img src="../images/Vadim_Ogievetsky.jpg" class="img-responsive" style="width:100%" alt="Image">
-    </div>
+  <div class="col-md-6">
+  <figure>
+        <figcaption id="example1-caption">Selectie.html</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>&lt;!DOCTYPE html&gt;</b>
+  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+  <b>&lt;html&gt;</b>
+  <b>&lt;head&gt;</b>
+    <b>&lt;title&gt;</b>Selectie voorbeelden<b>&lt;/title&gt;</b>
+    <i>&lt;!-- D3 inladen --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"js/selectie.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <b>&lt;/head&gt;</b>
+  <b>&lt;body&gt;</b>
+    <i>&lt;!-- Een zooitje p elementen als voorbeeld --&gt;</i>
+    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
+    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
+  <b>&lt;/body&gt;</b>
+  <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+  </div>
+  <div class="col-md-6">
+  <figure>
+        <figcaption id="example1-caption">selectie.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>// Zoals je ziet wordt alleen het eerste element blauw</b>
+  d3.<b>select</b>(<u>"p"</u>).style(<u>"color"</u>, <u>"blue"</u>);
+
+  <b>// Alle "p" elementen krijgen font-weight bold (dikgedrukt)</b>
+  d3.selectAll(<u>"p"</u>).style(<u>"font-weight"</u>, <u>"bold"</u>);
+
+  <b>// Alle even p elementen worden goudkleurig gemaakt!</b>
+  d3.selectAll(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"gold"</u>).html(<u>"Dit is even"</u>);
+
+  <b>// Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
+     word alleen het eerste even element geselecteerd.</b>
+  d3.<b>select</b>(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"skyblue"</u>).html(<u>"Dit is even"</u>);
+
+  <b>// Op dezelfde manier kunnen we een streep trekken door de oneven elementen</b>
+  d3.selectAll(<u>"p:nth-child(odd)"</u>).style(<u>"text-decoration"</u>, <u>"line-through"</u>);
+
+  <b>// Ook kunnen we de laatste selecteren</b>
+  d3.<b>select</b>(<u>"p:last-of-type"</u>).html(<u>"Dit is het laatste element"</u>);
+
+  <b>// Of de derde</b>
+  d3.<b>select</b>(<u>"p:nth-child(3)"</u>).style(<u>"color"</u>, <u>"purple"</u>).html(<u>"Dit is even"</u>);
+    </code></pre>
+      </figure>
+  </div>
+  </div>
+
+  <p class="lead">Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p>
+<div class="container">
+  <div class="row">
+  <div class="col-md-6">
+  <p>Zonder JavaScript</p><br>
+  <p>Hallo</p>
+  <p>Doei</p>
+  <p>Hallo</p>
+  <p>Doei</p>
+  <p>Hallo</p>
+  <p>Doei</p>
+  <p>Hallo</p>
+  <p>Doei</p>
+  </div class="col-md-6">
+  <p>Met JavaScript</p><br>
+  <p class="selection_preview">Hallo</p>
+  <p class="selection_preview">Doei</p>
+  <p class="selection_preview">Hallo</p>
+  <p class="selection_preview">Doei</p>
+  <p class="selection_preview">Hallo</p>
+  <p class="selection_preview">Doei</p>
+  <p class="selection_preview">Hallo</p>
+  <p class="selection_preview">Doei</p>
+  <div>
+  </div>
   </div>
 </div>
-<!-- <script type="text/javascript">
-  teken("#voorbeeld");
-</script>
- --><!-- Footer -->
+
+  <script type="text/javascript">
+    // Zoals je ziet wordt alleen het eerste element blauw
+  d3.select(".selection_preview").style("color", "blue");
+
+  // Alle "p" elementen krijgen font-weight bold (dikgedrukt)
+  d3.selectAll(".selection_preview").style("font-weight", "bold");
+
+  // Alle even p elementen worden goudkleurig gemaakt!
+  d3.selectAll(".selection_preview:nth-child(even)").style("color", "gold").html("Dit is even");
+
+  // Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
+     //word alleen het eerste even element geselecteerd.
+  d3.select(".selection_preview:nth-child(even)").style("color", "skyblue").html("Dit is even");
+
+  // Op dezelfde manier kunnen we een streep trekken door de oneven elementen
+  d3.selectAll(".selection_preview:nth-child(odd)").style("text-decoration", "line-through");
+
+  // Ook kunnen we de laatste selecteren
+  d3.select(".selection_preview:last-of-type").html("Dit is het laatste element");
+
+  // Of de derde
+  d3.select(".selection_preview:nth-child(3)").style("color", "purple").html("Dit is even");
+  </script>
+</div>
+
+<!-- Second Container (Grid) -->
+<div class="container-fluid bg-3 text-center">
+  <p>Nu we weten hoe selecties werken gaan we kijken of we een simpele barchart kunnen maken.
+  Een goede barchart heeft altijd bepaalde elementen die ervoor zorgen dat het goed leesbaar is.</p>
+
+</div>
+<!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
-  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p> 
+  <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p>
 </footer>
 
 </body>
