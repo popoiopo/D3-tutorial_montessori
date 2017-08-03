@@ -1,6 +1,6 @@
 function solar_gears(id) {
-  var width = 480,
-      height = 250,
+  var width = 400,
+      height = 400,
       radius = 80,
       x = Math.sin(2 * Math.PI / 3),
       y = Math.cos(2 * Math.PI / 3);
@@ -10,10 +10,12 @@ function solar_gears(id) {
       start = Date.now();
 
   var svg = d3.select(id).append("svg")
-      .attr("width", width)
-      .attr("height", height)
+    .attr("width", '50%')
+    .attr("height", '50%')
+    .attr('viewBox','0 0 '+Math.min(width,height)+' '+Math.min(width,height))
+    .attr('preserveAspectRatio','xMinYMin')
     .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(.55)")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(.35)")
     .append("g");
 
   var frame = svg.append("g")

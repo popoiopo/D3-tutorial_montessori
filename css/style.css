@@ -134,3 +134,7 @@ p {font-size: 16px;
     border-bottom:2px solid #000;    
   }
 }
+
+p.text_row {
+    margin-top: 15px;
+}

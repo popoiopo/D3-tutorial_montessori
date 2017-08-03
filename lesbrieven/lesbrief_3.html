@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/codeblock.css">
   <link rel="stylesheet" href="../css/style_solar.css">
+  <link rel="stylesheet" href="../css/bar_chart.css">
   <script src="../js/codeblock.js"></script>
 </head>
 <body>
@@ -52,7 +53,7 @@
     <input type="radio" name="reference" id="ref-sun">
     <label for="ref-sun">Sun</label>
   </form>
-  <svg class="solar_gears" width="960" height="600"></svg>
+  <div class="solar_gears" width="960" height="600"></div>
   <script>
     solar_gears(".solar_gears");
   </script>
@@ -118,7 +119,7 @@
 
   <b>// Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
      word alleen het eerste even element geselecteerd.</b>
-  d3.<b>select</b>(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"skyblue"</u>).html(<u>"Dit is even"</u>);
+  d3.<b>select</b>(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"skyblue"</u>).html(<u>"Dit is even, zoals je ziet wordt met select alleen het eerste element gepakt."</u>);
 
   <b>// Op dezelfde manier kunnen we een streep trekken door de oneven elementen</b>
   d3.selectAll(<u>"p:nth-child(odd)"</u>).style(<u>"text-decoration"</u>, <u>"line-through"</u>);
@@ -133,7 +134,7 @@
   </div>
   </div>
 
-  <p class="lead">Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p>
+  <p>Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p>
 <div class="container">
   <div class="row">
   <div class="col-md-6">
@@ -173,7 +174,7 @@
 
   // Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
      //word alleen het eerste even element geselecteerd.
-  d3.select(".selection_preview:nth-child(even)").style("color", "skyblue").html("Dit is even");
+  d3.select(".selection_preview:nth-child(even)").style("color", "skyblue").html("Dit is even, zoals je ziet wordt met select alleen het eerste element gepakt.");
 
   // Op dezelfde manier kunnen we een streep trekken door de oneven elementen
   d3.selectAll(".selection_preview:nth-child(odd)").style("text-decoration", "line-through");
@@ -188,10 +189,130 @@
 
 <!-- Second Container (Grid) -->
 <div class="container-fluid bg-3 text-center">
-  <p>Nu we weten hoe selecties werken gaan we kijken of we een simpele barchart kunnen maken.
-  Een goede barchart heeft altijd bepaalde elementen die ervoor zorgen dat het goed leesbaar is.</p>
+  <h3 class="margin">Onze eerste barchart</h3>
+  <p>Nu we weten hoe selecties werken (snap je elke soort selectie?) gaan we kijken of we een simpele barchart kunnen maken.
+  Een goede barchart heeft altijd bepaalde elementen die ervoor zorgen dat het goed leesbaar is. Zo kan je hier onder een voorbeeld zien, ook gemaakt in D3. Zoals we zien is er een titel aanwezig die beschrijvend is voor wat de grafiek laat zien. Er wordt duidelijk gemaakt uit welk jaar de data komt, wat de variabelen zijn en welke plaats. Verder moeten er natuurlijk altijd assen zijn! De stapgrootte van je assen moeten bijvoorbeeld logisch zijn. Hier gaat het bijvoorbeeld per half uur, of per maand. Bij beide assen zijn er ook titels die zeggen welke variabele de as representeert. Verder is het laatste (maar minstens net zo belangrijk) element, de bronvermelding. Deze data is bijvoorbeeld gehaald van de KNMI site, waar je heel veel informatie over het weer kan halen. Als we hen niet zouden melden hier, zou het natuurlijk erg onbeleefd naar hun zijn omdat zij alle informatie hebben vergaard. Maar het geeft je lezer ook het idee dat wat ze uit de grafiek lezen echt waar is, omdat het van een betrouwbare bron komt. Belangrijk dus!</p>
+
+<div id="bar_chart_example"></div>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="../js/bar_chart.js" type="text/javascript"></script>
+
+<p>Zoals je hier boven misschien wel hebt gezien, is er ook extraatje te vinden in de barchart. Er is namelijk een on mouseover functionaliteit in de grafiek gemaakt. Als je bijvoorbeeld met je muis over een van de staven gaat, komt er een pop-up die je de waarde van de staaf verteld. Dit zullen wij ook maken! Maar wel pas aan het einde, dus heb geduld.</p>
+
+<h3 class="margin">Het maken van de bars</h3>
+<p>Zoals we in lesbrief 2 hebben besproken kan je vrij gemakkelijk een paar rects maken, en dat lijkt al snel op een barchart. Dit zou bijvoorbeeld kunnen met de code hier onder.</p>
+
+<div class="row">
+  <div class="col-md-6">
+<figure>
+        <figcaption id="example1-caption">script.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>// Maak de SVG container</b>
+    <strong>var</strong> svgContainer <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+      .attr(<u>"width"</u>, 400</b>)
+      .attr(<u>"height"</u>, 400</b>);
+
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle1 <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>10</b>)
+      .attr(<u>"y"</u>, <b>10</b>)
+      .attr(<u>"width"</u>, <b>250</b>)
+      .attr(<u>"height"</u>, <b>50</b>);
+
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle2 <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>10</b>)
+      .attr(<u>"y"</u>, <b>90</b>)
+      .attr(<u>"width"</u>, <b>100</b>)
+      .attr(<u>"height"</u>, <b>50</b>);
+
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle3 <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>10</b>)
+      .attr(<u>"y"</u>, <b>170</b>)
+      .attr(<u>"width"</u>, <b>354</b>)
+      .attr(<u>"height"</u>, <b>50</b>);
+
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle4 <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>10</b>)
+      .attr(<u>"y"</u>, <b>250</b>)
+      .attr(<u>"width"</u>, <b>145</b>)
+      .attr(<u>"height"</u>, <b>50</b>);
+
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle5 <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>10</b>)
+      .attr(<u>"y"</u>, <b>330</b>)
+      .attr(<u>"width"</u>, <b>296</b>)
+      .attr(<u>"height"</u>, <b>50</b>);
+
+  </code></pre>
+      </figure>
+</div>
+<div class="col-md-6">
+  <p class="text_row">Maar zoals je misschien ook wel al door hebt is dit niet echt de meest effectieve manier om deze code te schrijven. Het zit bijvoorbeeld vol met allemaal code die hetzelfde is (ook wel "duplicate code" genoemd). Zo kunnen we bijvoorbeeld een array maken met alle waardes erin, zodat we niet telkens de breedte van de bar hoeven te specificeren. En misschien is er ook wel een functie die de afstanden tussen de bars automatisch berekend. En hoewel dit er al wel op lijkt, moeten we alsnog ook wel alle andere elementen van een bargraph maken (denk aan assen, titels, bronvermelding etc). Plus een echte bargraph is over het algemeen vaak rechtop gepositioneerd i.p.v. op zijn zij.</p>
+  <div class="preview_svg" id="voorbeeld"></div>
+</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+// Maak de SVG container
+var svgContainer = d3.select("#voorbeeld").append("svg")
+  .attr("width", 400)
+  .attr("height", 400)
+  .style("border", "1px solid black");
+
+// Teken de rechthoek
+var rectangle = svgContainer.append("rect")
+  .attr("x", 10)
+  .attr("y", 10)
+  .attr("width", 250)
+  .attr("height", 50)
+  .style("fill", "steelblue");
+
+var rectangle2 = svgContainer.append("rect")
+  .attr("x", 10)
+  .attr("y", 90)
+  .attr("width", 100)
+  .attr("height", 50)
+  .style("fill", "steelblue");
+
+var rectangle3 = svgContainer.append("rect")
+  .attr("x", 10)
+  .attr("y", 170)
+  .attr("width", 354)
+  .attr("height", 50)
+  .style("fill", "steelblue");
+
+var rectangle4 = svgContainer.append("rect")
+  .attr("x", 10)
+  .attr("y", 250)
+  .attr("width", 145)
+  .attr("height", 50)
+  .style("fill", "steelblue");
+
+var rectangle5 = svgContainer.append("rect")
+  .attr("x", 10)
+  .attr("y", 330)
+  .attr("width", 296)
+  .attr("height", 50)
+  .style("fill", "steelblue");
+
+</script>
 
 </div>
+
 <!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
   <p>Bootstrap Theme Made By <a href="https://www.w3schools.com">www.w3schools.com</a><br> Module Made By Bas Châtel</p>

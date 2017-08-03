@@ -230,32 +230,59 @@
 </code></pre>
     </figure>
 
-<p>Nu we een template HTML pagina hebben, kunnen we ons verdiepen in JavaScript. Zo gaan we nu eerst een blok maken op onze pagina.</p>
+<p>Nu we een template HTML pagina hebben, kunnen we ons verdiepen in JavaScript D3.js. Zo gaan we nu eerst een blok maken op onze pagina. Zie dat we i.p.v. elke keer svgContainer aanroepen om een attribuut te veranderen, gewoon meteen alle attributen eraan kunnen plakken. Dit noemen we "method chaining". Hierbij kan je dus een keten maken met attributen die je wilt toekennen aan je selectie, zolang je de punt-komma (;) pas aan het einde van de keten zet. Om het verschil tussen wel of geen "method chaining" te gebruiken duidelijk te maken staat hier onder links een voorbeeld met, en rechts een voorbeeld zonder method chaining. Zoals je ziet maakt het nogal verschil in de hoeveelheid code en hoe vaak een variabele aangeroepen moet worden.</p>
 
-<div class="container">
+<div class="row">
+  <div class="col-md-6">
+    <figure>
+        <figcaption id="example1-caption">script.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>// Maak de SVG container</b>
+    <strong>var</strong> svgContainer <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+      .attr(<u>"width"</u>, 200</b>)
+      .attr(<u>"height"</u>, 200</b>);
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle <b>=</b> svgContainer.append(<u>"rect"</u>)
+      .attr(<u>"x"</u>, <b>150</b>)
+      .attr(<u>"y"</u>, <b>50</b>)
+      .attr(<u>"width"</u>, <b>50</b>)
+      .attr(<u>"height"</u>, <b>140</b>);
+  </code></pre>
+      </figure>
+  </div>
+  <div class="col-md-6">
+    <figure>
+        <figcaption id="example1-caption">script.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>// Maak de SVG container</b>
+    <strong>var</strong> svgContainer <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>);
+    svgContainer.append(<u>"svg"</u>);
+    svgContainer.attr(<u>"width"</u>, 200</b>);
+    svgContainer.attr(<u>"height"</u>, 200</b>);
+    <b>// Teken de rechthoek</b>
+    <strong>var</strong> rectangle <b>=</b> svgContainer.append(<u>"rect"</u>);
+    rectangle.attr(<u>"x"</u>, <b>150</b>);
+    rectangle.attr(<u>"y"</u>, <b>50</b>);
+    rectangle.attr(<u>"width"</u>, <b>50</b>);
+    rectangle.attr(<u>"height"</u>, <b>140</b>);
+  </code></pre>
+      </figure>
+  </div>
+  </div>
 
-  <figure>
-      <figcaption id="example1-caption">script.js</figcaption>
-<pre
-  aria-describedby="example1-description"
-  aria-labelledby="example1-caption"><code
-  contenteditable="true"
-  tabindex="0"
-  spellcheck="false">
-  <b>// Maak de SVG container</b>
-  <strong>var</strong> svgContainer <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
-    .attr(<u>"width"</u>, 200</b>)
-    .attr(<u>"height"</u>, 200</b>);
-  <b>// Teken de rechthoek</b>
-  <strong>var</strong> rectangle <b>=</b> svgContainer.append(<u>"rect"</u>)
-    .attr(<u>"x"</u>, <b>150</b>)
-    .attr(<u>"y"</u>, <b>50</b>)
-    .attr(<u>"width"</u>, <b>50</b>)
-    .attr(<u>"height"</u>, <b>140</b>);
-</code></pre>
-    </figure>
+  <p>Zoals je kunt zien zie de code aan de linkerkant er een stuk overzichtelijker uit. Het scheelt je aardig veel code om het met method chaining te doen! Hier onder zie je hoe de code van net er uit zal zien op de browser.</p>
 
-  <div class="preview_svg" id="voorbeeld"></div>
+  <div class="preview_svg" id="voorbeeld">
 
   <script type="text/javascript">
   function container_rect(container) {
@@ -274,7 +301,6 @@
 
   container_rect("#voorbeeld");
 </script>
-</div>
 
 <p>Behalve de vierhoeken die je kan appenden kan je natuurlijk ook een circle appenden. Zo kan je bijvoorbeeld al gemakkelijk een gezichtje maken. Er zijn wel een paar dingen anders bij circles. Zo hebben circles cx en cy co&ouml;rdinaten i.p.v. de x en y co&ouml;rdinaten waar we met rects mee werken. Verder hebben we ook te maken met de radius, wat de doorsnede van een circle is vanaf het midden.</p>
 
