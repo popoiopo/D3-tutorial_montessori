@@ -60,9 +60,9 @@
 </div>
 
 <!-- Second Container (Grid) -->
-<div class="container-fluid bg-5 text-center">
+<div class="container-fluid bg-2 text-center">
   <h3 class="margin">Een korte uitbreiding op selecties</h3><br>
-  <p>Nu we zelf een SVG kunnen maken, is het misschien zaak om wat beter te begrijpen hoe het selecteren van dingen nou precies werkt. Zo kunnen weten we beter wat we er mee kunnen natuurlijk! We hebben bijvoorbeeld d3.select() en d3.selectAll() al gezien. De eerste maakt een selectie van het eerste element dat er gevonden kan worden in de DOM met een bepaalde specificatie (tagg/ID/class etc). En de tweede geeft een array terug van alle elementen die voldoen aan de criteria. Er wordt verwacht dat je alle code zelf overneemt en zelf een beetje gaat spelen met de code. Hier onder zie je code die demonstreren hoe bepaalde selecties werken.</p>
+  <p>Nu we zelf een SVG kunnen maken, is het misschien zaak om wat beter te begrijpen hoe het selecteren van dingen nou precies werkt. Zo kunnen natuurlijk beter weten wat we er mee kunnen! We hebben bijvoorbeeld d3.select() en d3.selectAll() al gezien. De eerste (d3.select()) maakt een selectie van het eerste element dat er gevonden kan worden in de DOM met een bepaalde specificatie (tagg/ID/class etc). En de tweede (d3.selectAll()) geeft een array terug van alle elementen die voldoen aan de criteria. Er wordt verwacht dat je alle code zelf overneemt en zelf een beetje gaat spelen met de code. Hier onder zie je code die demonstreren hoe bepaalde selecties werken.</p>
 
   <div class="row">
   <div class="col-md-6">
@@ -134,7 +134,7 @@
   </div>
   </div>
 
-  <p>Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p>
+  <p>Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p><br>
 <div class="container">
   <div class="row">
   <div class="col-md-6">
@@ -204,6 +204,8 @@
 <h3 class="margin">Het maken van de bars</h3>
 <p>Zoals we in lesbrief 2 hebben besproken kan je vrij gemakkelijk een paar rects maken, en dat lijkt al snel op een barchart. Dit zou bijvoorbeeld kunnen met de code hier onder.</p>
 
+<p class="text_row">Maar zoals je misschien ook wel al door hebt is dit niet echt de meest effectieve manier om deze code te schrijven. Het zit bijvoorbeeld vol met allemaal code die hetzelfde is (ook wel "duplicate code" genoemd). Zo kunnen we bijvoorbeeld een array maken met alle waardes erin, zodat we niet telkens de breedte van de bar hoeven te specificeren. En misschien is er ook wel een functie die de afstanden tussen de bars automatisch berekend. En hoewel dit er al wel op lijkt, moeten we alsnog ook wel alle andere elementen van een bargraph maken (denk aan assen, titels, bronvermelding etc). Plus een echte bargraph is over het algemeen vaak rechtop gepositioneerd i.p.v. op zijn zij.</p>
+
 <div class="row">
   <div class="col-md-6">
 <figure>
@@ -258,17 +260,133 @@
       </figure>
 </div>
 <div class="col-md-6">
-  <p class="text_row">Maar zoals je misschien ook wel al door hebt is dit niet echt de meest effectieve manier om deze code te schrijven. Het zit bijvoorbeeld vol met allemaal code die hetzelfde is (ook wel "duplicate code" genoemd). Zo kunnen we bijvoorbeeld een array maken met alle waardes erin, zodat we niet telkens de breedte van de bar hoeven te specificeren. En misschien is er ook wel een functie die de afstanden tussen de bars automatisch berekend. En hoewel dit er al wel op lijkt, moeten we alsnog ook wel alle andere elementen van een bargraph maken (denk aan assen, titels, bronvermelding etc). Plus een echte bargraph is over het algemeen vaak rechtop gepositioneerd i.p.v. op zijn zij.</p>
-  <div class="preview_svg" id="voorbeeld"></div>
+  <figure>
+        <figcaption id="example1-caption">barchart.html</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>&lt;!DOCTYPE html&gt;</b>
+  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+  <b>&lt;html&gt;</b>
+  <b>&lt;head&gt;</b>
+    <b>&lt;title&gt;</b>Onze eerste barchart<b>&lt;/title&gt;</b>
+    <i>&lt;!-- D3 inladen --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <b>&lt;/head&gt;</b>
+  <b>&lt;body&gt;</b>
+    <b>&lt;div</b> id=<u>"voorbeeld1"</u>&gt;<b>&lt;div&gt;</b>
+  <b>&lt;/body&gt;</b>
+  <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+  <div class="preview_svg" id="voorbeeld1_l3"></div>
+</div>
+</div>
+<p class="text_row">Alleen zoals we net ook al hebben gezien wordt de code erg snel heel erg lang. Je kan zelf ook bedenken dat als je meer kolommen wilt laten zien, je code meteen een stuk langer wordt! Oke, oke.. Ik hoor jullie al denken, gebruik gewoon een for-loop! Nou d3 heeft wat beters voor ons. Zoals je hier onder kunt zien krijgen we precies hetzelfde resultaat met de groene kolommen, maar dit is geschreven in maar 14 regels i.p.v. de 40 regels die hier naast gebruikt wordt terwijl de HTML file precies hetzelfde blijft. Dit voorbeeld gaan we regel voor regel uitpluizen wat er gebeurt.</p>
+
+<div class="row">
+  <div class="col-md-6">
+<figure>
+        <figcaption id="example1-caption">script.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>// Specificeer de data in een array</b>
+    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
+
+    <b>// Selecteer de div container en geef hem een grootte</b>
+    <strong>var</strong> auto_rect <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+      .attr(<u>"width"</u>, 400</b>)
+      .attr(<u>"height"</u>, 400</b>);
+
+    <b>// Teken alle kolommen</b>
+    <b>// Selecteer eerst de container en rect elementen erin</b>
+    <b>// Zoals je ziet zitten er nog geen rect elementen in de container, </b>
+    <b>// de selectie is hier dus leeg</b>
+    auto_rect.selectAll(<u>"rect"</u>)
+
+        <b>// Laad de data in die we willen laten zien. </b>
+        <b>// (de array met data van hierboven dus)</b>
+        .data(data_waardes)
+
+      <b>// Hier klimmen we als het ware in de lege selectie die hier boven is gemaakt, </b>
+      <b>// en vullen we het met rect elementen.</b>
+      .enter().append("rect")
+
+        <b>// Zoals normaal de x waarde mee geven.</b>
+        .attr(<u>"x"</u>, <b>10</b>)
+
+        <b>// Hier gebeurt de magie echt pas, function (d,i) loopt door de data. </b>
+        <b>// i is de index, d is de data</b>
+        <b>// Hier gaan we zo verder op in.</b>
+        .attr(<u>"y"</u>, <strong>function</strong>(d,i) {<b>return</b> (i <b>* 80</b>) <b>+ 10</b>; })
+
+        <b>// Zoals er voor de y de index (i) gebruikt wordt, wordt hier de data gereturned.</b>
+        .attr(<u>"width"</u>, <strong>function</strong>(d) { <b>return</b> d <b>+</b> <u>"px"</u>; })
+
+        <b>// De hoogte van de kolommen worden mee gegeven.</b>
+        .attr(<u>"height"</u>, <b>50</b>)
+
+        <b>// En onze prachtige kermit de kikker kleur.</b>
+        .style(<u>"fill"</u>, <u>"#66ff33"</u>);
+  </code></pre>
+      </figure>
+</div>
+<div class="col-md-6">
+<figure>
+        <figcaption id="example1-caption">barchart.html</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>&lt;!DOCTYPE html&gt;</b>
+  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+  <b>&lt;html&gt;</b>
+  <b>&lt;head&gt;</b>
+    <b>&lt;title&gt;</b>Onze eerste barchart<b>&lt;/title&gt;</b>
+    <i>&lt;!-- D3 inladen --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <b>&lt;/head&gt;</b>
+  <b>&lt;body&gt;</b>
+    <b>&lt;div</b> id=<u>"voorbeeld1"</u>&gt;<b>&lt;div&gt;</b>
+  <b>&lt;/body&gt;</b>
+  <b>&lt;/html&gt;</b>
+    </code></pre>
+      </figure>
+  <div class="preview_svg" id="voorbeeld2_l3"></div>
 </div>
 </div>
 
+<p>Wat er dus gebeurt is, we hebben een aantal waardes die we willen visualiseren. Dit stoppen we eerst in een array voor later gebruikt. Dan selecteren we de container waar we onze visualisatie in willen zien. Hier geven we hoogte en breedte dimensies aan.</p>
+<p> Vervolgens selecteren we de container. Maar hier gebeurt dan iets raars. We selecteren de elementen die we zelf nog willen maken. De container is nog leeg, maar selecteren iets wat dus nog niet bestaat. Deze selectie geeft dan dus ook een leeg object terug, maar met deze actie in combinatie met de enter() functie reserveren we als het ware een plekje voor de rect elementen die we er vervolgens in gaan appenden. Hierna moeten we de rects nog attributen geven (x, y, breedte, hoogte, kleur). De "x" is makkelijk, die blijft steeds op 10 aangezien de kolom pas 10 pixels naar rechts begint. Dan komen we iets nieuws tegen! Aangezien de "y" van elke kolom steeds anders is hebben we een trucje nodig om dit te berekenen. Zoals je misschien bij het vorige voorbeeld al hebt gezien hebben we de y waardes steeds met een sprong van 80 pixels verschil gemaakt. Dus de berekening van deze y-waarde zou dan dus zijn, de hoeveelste kolom keer 80 en dan de tien pixel erbij opgeteld die we als border aan hebben gehouden tussen de eerste kolom en de rand van de container. Dus stel dat i staat voor de hoeveelste kolom, dan krijgen we <code>y = (i * 80) + 10</code>. We kunnen ook zien dat dit klopt als je de waardes van het vorige voorbeeld bekijkt.</p>
+
+<p> Beginnend met de eerste kolom: <br><code>
+  y = 10 = (0 * 80) + 10 = 0 + 10<br>
+  y = 90 = (1 * 80) + 10 = 80 + 10<br>
+  y = 170 = (2 * 80) + 10 = 160 + 10<br>
+  y = 250 = (3 * 80) + 10 = 250 + 10<br></code> etc</p>
+
+<p><code>function (d,i) {}</code> is een anonieme functie. In ons geval wordt de functie die je hier in schrijft (tussen de krulhaken {}) gerunt per datapunt die we in onze data_waardes array hebben. De d representeert een datapunt, en de i de index (hoeveelste datapunt (kolom) het is). Je kunt dus hele functies schrijven tussen deze krulhaken. Probeer maar binnen de krulhaken en voor de return de d en de i in een <code>console.log()</code> te stoppen. Dit is ook heel belangrijk bij debuggen. Als je namelijk rare waardes krijgt, of er gebeurt iets niet naar verwachting is het altijd verstandig om <code>console.log()</code> te gebruiken om variabelen te printen zodat je precies ziet wat er gebeurt.</p>
+
+<p>Nadat het y-attribuut mee gegeven is doen we hetzelfde voor de breedte. Hier gebruiken we echter de d voor, wat dus de desbetreffende datapunten zijn. Er moet hier een klein beetje stringconcatenation worden gebruikt op "px" er achter te plakken. Het CSS attribuut "width" heeft namelijk een getal met "px" er achter nodig als input. Dus bijvoorbeeld zoals bij de eerste kolom: "250px". En als laatst rest ons alleen nog het geven van een hoogte en een kleurtje van de kolommen. In de volgende lesbrief gaan we kijken naar hoe we de assen kunnen vormgeven, wat ranges en domeinen zijn, text toevoegen etc. Zodat we een statische bargraph hebben!</p>
 
 
 <script type="text/javascript">
 
 // Maak de SVG container
-var svgContainer = d3.select("#voorbeeld").append("svg")
+var svgContainer = d3.select("#voorbeeld1_l3").append("svg")
   .attr("width", 400)
   .attr("height", 400)
   .style("border", "1px solid black");
@@ -308,6 +426,21 @@ var rectangle5 = svgContainer.append("rect")
   .attr("width", 296)
   .attr("height", 50)
   .style("fill", "steelblue");
+
+data = [250, 100, 170, 354, 145, 296];
+auto_rect = d3.select("#voorbeeld2_l3").append("svg")
+  .attr("width", 400)
+  .attr("height", 400)
+  .style("border", "1px solid black");
+
+auto_rect.selectAll("rect")
+    .data(data)
+  .enter().append("rect")
+    .attr("x", 10)
+    .attr("y", function(d,i) { return (i * 80) + 10;} )
+    .style("width", function(d) { return d + "px"; })
+    .attr("height", 50)
+    .style("fill", "#66ff33");
 
 </script>
 

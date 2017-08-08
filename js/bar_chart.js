@@ -84,6 +84,7 @@ function draw_barchart (div) {
       .attr("x", width)
       .attr("y", height + 110)
       .text("Months of the year 2015-2016")
+      .style("font-weight", "normal")
       .style("font-size", '18px');
 
     // draw y axis
@@ -96,6 +97,7 @@ function draw_barchart (div) {
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("Hours of rain per month")
+      .style("font-weight", "normal")
       .style("font-size", '18px');
 
     // making the title
@@ -103,7 +105,7 @@ function draw_barchart (div) {
       .attr("x", (width / 2))
       .attr("y", -(margin.top - 25))
         .attr("text-anchor", "middle")
-        .style("font-size", "18px")
+        .style("font-size", "20px")
         .style("text-decoration", "underline")
       .text("Hours of rain per Month in the year 2015 to 2016 in 'de Bilt'");
 
