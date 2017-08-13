@@ -34,40 +34,95 @@
         <li><a href="../lesbrieven/lesbrief_1.html">Lesbrief 1</a></li>
         <li><a href="../lesbrieven/lesbrief_2.html">Lesbrief 2</a></li>
         <li><a href="../lesbrieven/lesbrief_3.html">Lesbrief 3</a></li>
+        <li><a href="../lesbrieven/lesbrief_4.html">Lesbrief 4</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
 <!-- First Container -->
-<div class="container-fluid bg-1 text-center">
-  <h3 class="margin">Lesbrief 3</h3>
-  https://bl.ocks.org/mbostock/1893974
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="../js/gear_of_solar.js"></script>
-  <form style="text-align:left; margin-left:15%; margin-top:25px;">
-    <input type="radio" name="reference" id="ref-annulus">
-    <label for="ref-annulus">Annulus</label><br>
-    <input type="radio" name="reference" id="ref-planet" checked>
-    <label for="ref-planet">Planets</label><br>
-    <input type="radio" name="reference" id="ref-sun">
-    <label for="ref-sun">Sun</label>
-  </form>
-  <div class="solar_gears" width="960" height="600"></div>
-  <script>
-    solar_gears(".solar_gears");
-  </script>
+<div class="container-fluid bg-1 text-center" id="linked_views_body">
+  <h3 class="margin">Lesbrief 4</h3>
+  <p>Zoals altijd beginnen we de lesbrief met een voorbeeld van een D3 visualisatie. Dit keer heb ik er een van mijzelf uit de oude doos gehaald, namelijk een linked views. Hier heb ik een database gebruikt met allemaal informatie over elementen die mogelijk zouden kunnen bijdragen aan hoe men hun eigen geluk zouden waarnemen. Zo heb je het inkomen, CO2 uitstoot van het land, levensverwachting, hoe dikbevolkt het land is en drie maatstaven die de Happy Planet Index gebruikt om mensen hun geluk te meten. Over elk land kan je met je muis een pop-up zien die je alle waardes geeft. Als je op een land klikt zie je dat de lijn die dat land representeert in de onderste grafiek (deze heet een parallel coordinates graph) rood worden. Vervolgens kan je op de rode lijn klikken weer om hem naar voren te laten springen. De kaart kan ook gekleurt worden op meerdere variabelen, bijvoorbeeld als je klikt op de variabele naam. En je kan een selectie maken in de parallel coordinates graph. Speel maar even met de visualisaties zodat je kunt zien hoe dingen met elkaar in verband staan. </p>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.9.0/d3-legend.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.9.0/d3-legend.min.js"></script>
+  <script src="../js/datamaps.world.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/linked_views.css">
+  <p>Source: <a href="http://www.happyplanetindex.org/data/" target="_blank">Happy planet index </a></p>
+  <div id="container" style="position: relative; width: 960px; height: 550px; display: inline-block"></div>
+  <script src="../js/linked_views.js" type="text/javascript"></script>
 </div>
 
 <!-- Second Container (Grid) -->
-<div class="container-fluid bg-5 text-center">
-  <h3 class="margin">Een korte uitbreiding op selecties</h3><br>
-  <p>Nu we zelf een SVG kunnen maken, is het misschien zaak om wat beter te begrijpen hoe het selecteren van dingen nou precies werkt. Zo kunnen weten we beter wat we er mee kunnen natuurlijk! We hebben bijvoorbeeld d3.select() en d3.selectAll() al gezien. De eerste maakt een selectie van het eerste element dat er gevonden kan worden in de DOM met een bepaalde specificatie (tagg/ID/class etc). En de tweede geeft een array terug van alle elementen die voldoen aan de criteria. Er wordt verwacht dat je alle code zelf overneemt en zelf een beetje gaat spelen met de code. Hier onder zie je code die demonstreren hoe bepaalde selecties werken.</p>
+<div class="container-fluid bg-3 text-center">
+  <h3 class="margin">Een introductie in gebruik van Scales</h3><br>
+  <p>In de vorige lesbrief hebben de grootte van de kolommen (bars) gelijk gesteld aan de waarde die het representeerde. Dus de waarde 95 werd een rect van 95 pixel in de breedte. Maar soms moet je natuurlijk waardes visualiseren die misschien wel in de miljoenen zitten. Deze bars kunnen dan niet een miljoen pixel breed zijn. De D3 library heeft een elegante oplossing voor ons bedacht. Er bestaat namelijk een functie <code>d3.scale.linear()</code> en deze functie zorgt ervoor dat er een juiste verdeling komt voor de grootte van je bars.</p>
+  <p>Stel bijvoorbeeld dat je een container van 400 bij 400 pixel wilt gebruiken. Maar de waardes komen boven de 500 uit. Als je deze ook wilt laten zien zal je de grootte van de bars allemaal relatief aan elkaar moeten aanpassen. Je hebt namelijk je maximale waarde die je wilt visualiseren (max waarde uit je data), en de maximale grootte van je container. Wat de <code>d3.scale.linear()</code> functie doet is het aantal pixels berekenen dat je bar groot moet zijn als de grootste waarde netjes de container grootte vult.</p>
+  <p> De functie heeft 2 argumenten nodig: het domein en de range. Het domein zal de minimale waarde zijn die je wilt visualiseren, samen met de maximale waarde. Meestal is dit dus <code>[0, d3.max(data)]</code> waarbij <code>d3.max()</code> op zichzelf weer een functie is die je grootste waarde uit je data plukt. De range is de grootte van je container, dus dat zal vaak <code>[0, width]</code> zijn waar width de breedte is van je container. Om dit wat duidelijker te maken, zie het plaatje hier onder. Het domein (dus de reikwijdte van je data) gaat in dit geval over dat mensen bijvoorbeeld 20 tot 80 appels hebben om te verkopen. 20 is hierbij de minimale hoeveelheid, en 80 is de max (<code>[0,80]</code> dus eigenlijk). Onze container is 120 pixels groot, dus deze loopt van <code>[0, 120]</code>. Stel we willen een bar maken die 50 appels te verkopen representeert. Als we onze bars netjes willen verspreiden over de container kunnen we niet simpelweg zeggen dat de bar ook 50 pixel moet zijn. Zoals je misschien al hebt gezien zit het getal 50 precies tussen de 20 en de 80. Dus zou het logisch zijn om de bar ook precies tussen de 0 en de 120 te laten zien (dus 60). </p>
+
+  <img style="margin-top:20px" src="../images/d3scale1.png">
+
+  <p style="margin-top:20px">Zo kunnen we het laatste voorbeeld van de vorige lesbrief bijvoorbeeld omschrijven naar het volgende:</p>
 
   <div class="row">
   <div class="col-md-6">
-  <figure>
-        <figcaption id="example1-caption">Selectie.html</figcaption>
+<figure>
+        <figcaption id="example1-caption">script.js</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+    <b>// Specificeer de data in een array</b>
+    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
+
+    <b>// Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren</b>
+    <b>// Op deze manier kun je meerdere variabelen tegelijk initiëren</b>
+    <strong>var</strong> width = 400,
+         barHeight = 20;
+
+
+    <b>// Zorg dat de d3.scale.linear() functie klaar staat voor gebruik</b>
+    <strong>var</strong> x = d3.scale.linear()
+      .domain([0, d3.max(data_waardes)])
+      .range([0, width]);
+
+    <b>// Selecteer de div container en geef hem een grootte</b>
+    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+      .attr(<u>"width"</u>, width</b>)
+      <b>// In plaats van de hoogte van je svg vast te leggen</b>
+      <b>// kan je hem ook variabel maken door de hoogte</b>
+      <b>// van 1 bar keer de totale hoeveelheid bars die </b>
+      <b>// je wilt visualiseren. Zo heb je altijd genoeg ruimte!</b>
+      .attr(<u>"height"</u>, barHeight * data_waardes.length</b>);
+
+    <b>// Het appenden van de rects</b>
+    svg.selectAll(<u>"rect"</u>)
+        .data(data_waardes)
+      .enter().append("rect")
+        .attr(<u>"x"</u>, <b>10</b>)
+        <b>// Omdat we dit keer de barheight boven hebben gedefinieert kunnen we dat</b>
+        <b>// gewoon i.p.v. de 80 nemen</b>
+        <b>// En als we de margin 10 weg laten ziet het er ook meteen wat gelikter uit</b>
+        .attr(<u>"y"</u>, <strong>function</strong>(d,i) {<b>return</b> i <b>*</b> barHeight; })
+        <b>// Het gebruik van de d3.scale! Zoals je ziet neemt de grootste bar nu </b>
+        <b>// de gehele grootte van de container over</b>
+        .attr(<u>"width"</u>, <strong>function</strong>(d) { <b>return</b> x(d) <b>+</b> <u>"px"</u>; })
+        <b>// Omdat we wel wat witruimte willen hebben kunnen we de barheight </b>
+        <b>// met 1 kleiner maken zodat er toch nog een margin van 1 pixel is</b>
+        .attr(<u>"height"</u>, barHeight - <b>1</b>)
+        .style(<u>"fill"</u>, <u>"steelblue"</u>);
+  </code></pre>
+      </figure>
+</div>
+<div class="col-md-6">
+<figure>
+        <figcaption id="example1-caption">barchart.html</figcaption>
   <pre
     aria-describedby="example1-description"
     aria-labelledby="example1-caption"><code
@@ -78,129 +133,174 @@
   <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
   <b>&lt;html&gt;</b>
   <b>&lt;head&gt;</b>
-    <b>&lt;title&gt;</b>Selectie voorbeelden<b>&lt;/title&gt;</b>
+    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
     <i>&lt;!-- D3 inladen --&gt;</i>
     <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
     <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"js/selectie.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
   <b>&lt;/head&gt;</b>
   <b>&lt;body&gt;</b>
-    <i>&lt;!-- Een zooitje p elementen als voorbeeld --&gt;</i>
-    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Hallo<b>&lt;/p&gt;</b>
-    <b>&lt;p&gt;</b>Doei<b>&lt;/p&gt;</b>
+    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
   <b>&lt;/body&gt;</b>
   <b>&lt;/html&gt;</b>
     </code></pre>
       </figure>
-  </div>
+  <div class="preview_svg" id="voorbeeld1_l4"></div>
+
+<script type="text/javascript">
+    // Specificeer de data in een array
+    data_waardes = [250, 100, 170, 354, 145, 296]
+
+    // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
+    // Op deze manier kun je meerdere variabelen tegelijk initiëren
+    var width = 400,
+         barHeight = 20;
+
+    // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
+    var x = d3.scale.linear()
+      .domain([0, d3.max(data_waardes)])
+      .range([0, width]);
+
+    // Selecteer de div container en geef hem een grootte
+    var svg = d3.select("#voorbeeld1_l4").append("svg")
+      .attr("width", width)
+      // In plaats van de hoogte van je svg vast te leggen
+      // kan je hem ook variabel maken door de hoogte
+      // van 1 bar keer de totale hoeveelheid bars die
+      // je wilt visualiseren. Zo heb je altijd genoeg ruimte!
+      .attr("height", barHeight * data_waardes.length);
+
+    svg.selectAll("rect")
+        .data(data_waardes)
+      .enter().append("rect")
+        .attr("x", 10)
+        .attr("y", function(d,i) {return i * barHeight; })
+        .attr("width", function(d) { return x(d) + "px"; })
+        .attr("height", barHeight - 1)
+        .style("fill", "steelblue");
+</script>
+
+</div>
+</div>
+
+<p>Zoals je kunt zien zijn we al aardig dichtbij het maken van onze eigen barchart! Het enige is alleen wel dat we nu allemaal rects hebben gemaakt, maar als je bijvoorbeeld ook tekst wilt laten zien op de bar zelf dan kan dat niet. Hiervoor zal er een soort canvas element moeten worden gebruikt. Iets om verder dingen aan te appenden. Hiervoor gebruiken we <code>g-elementen</code>. Dit is een grouping element wat alles dat erin gestopt wordt dus groepeert. Zo kunnen we bijvoorbeeld een g-element maken waar we vervolgens een rect aan appenden om de bars te maken, maar ook een tekst element om de absolute waardes te laten zien de de bar zelf representeert. In het volgende voorbeeld zullen we precies dat doen. Allereerst beginnen we met dezelfde setup als het vorige voorbeeld, maar gaan dan eerst g-elementen appenden aan de container waarin vervolgens de rects en de tekst in gaat. Verder gaan we nog een nieuw attribuut gebruiken, namelijk het <code>transform-attribuut</code>. Dit doet in feite hetzelfde als <code>.attr("y", function(d,i) {return i * barHeight; })</code> maar zorgt er voor dat alles wat in het element zit ook mee gaat. Omdat de rect en de text allebei in de g zit, hoeven we dus alleen de coordinaten van de g te veranderen om dingen op de goede plaats te krijgen.</p>
+
+
+  <div class="row">
   <div class="col-md-6">
-  <figure>
-        <figcaption id="example1-caption">selectie.js</figcaption>
+<figure>
+        <figcaption id="example1-caption">script.js</figcaption>
   <pre
     aria-describedby="example1-description"
     aria-labelledby="example1-caption"><code
     contenteditable="true"
     tabindex="0"
     spellcheck="false">
-  <b>// Zoals je ziet wordt alleen het eerste element blauw</b>
-  d3.<b>select</b>(<u>"p"</u>).style(<u>"color"</u>, <u>"blue"</u>);
+    <b>// Specificeer de data in een array</b>
+    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
 
-  <b>// Alle "p" elementen krijgen font-weight bold (dikgedrukt)</b>
-  d3.selectAll(<u>"p"</u>).style(<u>"font-weight"</u>, <u>"bold"</u>);
+    <b>// Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren</b>
+    <strong>var</strong> width = 400,
+         barHeight = 20;
 
-  <b>// Alle even p elementen worden goudkleurig gemaakt!</b>
-  d3.selectAll(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"gold"</u>).html(<u>"Dit is even"</u>);
+    <b>// Zorg dat de d3.scale.linear() functie klaar staat voor gebruik</b>
+    <strong>var</strong> x = d3.scale.linear()
+      .domain([0, d3.max(data_waardes)])
+      .range([0, width]);
 
-  <b>// Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
-     word alleen het eerste even element geselecteerd.</b>
-  d3.<b>select</b>(<u>"p:nth-child(even)"</u>).style(<u>"color"</u>, <u>"skyblue"</u>).html(<u>"Dit is even, zoals je ziet wordt met select alleen het eerste element gepakt."</u>);
+    <b>// Selecteer de div container en geef hem een grootte</b>
+    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
+      .attr(<u>"width"</u>, width</b>)
+      .attr(<u>"height"</u>, barHeight * data_waardes.length</b>);
 
-  <b>// Op dezelfde manier kunnen we een streep trekken door de oneven elementen</b>
-  d3.selectAll(<u>"p:nth-child(odd)"</u>).style(<u>"text-decoration"</u>, <u>"line-through"</u>);
+    <b>// Het appenden van de rects</b>
+    <strong>var</strong> bar = svg.selectAll(<u>"g"</u>)
+        .data(data_waardes)
+      .enter().append("g")
+        .attr(<u>"transform"</u>, <strong>function</strong>(d,i) { <b>return</b> <u>"translate(0, "</u> + i <b>*</b> barHeight + <u>")"</u>; });
 
-  <b>// Ook kunnen we de laatste selecteren</b>
-  d3.<b>select</b>(<u>"p:last-of-type"</u>).html(<u>"Dit is het laatste element"</u>);
+      bar.append(<u>"rect"</u>)
+        .attr(<u>"width"</u>, <strong>function</strong>(d) { <b>return</b> x(d) <b>+</b> <u>"px"</u>; })
+        .attr(<u>"height"</u>, barHeight - <b>1</b>)
+        .style(<u>"fill"</u>, <u>"steelblue"</u>);
 
-  <b>// Of de derde</b>
-  d3.<b>select</b>(<u>"p:nth-child(3)"</u>).style(<u>"color"</u>, <u>"purple"</u>).html(<u>"Dit is even"</u>);
+      bar.append(<u>"text"</u>)
+        .attr(<u>"x"</u>, <strong>function</strong>(d) {<b>return</b> x(d) - <b>30</b>; })
+        .attr(<u>"y"</u>, barHeight / <b>2</b> )
+        .attr(<u>"dy"</u>, <u>".35em"</u>)
+        .style(<u>"fill"</u>, <u>"white"</u>)
+        .text(<strong>function</strong> (d) { <b>return</b> d; });
+  </code></pre>
+      </figure>
+
+
+</div>
+<div class="col-md-6">
+<figure>
+        <figcaption id="example1-caption">barchart.html</figcaption>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>&lt;!DOCTYPE html&gt;</b>
+  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
+  <b>&lt;html&gt;</b>
+  <b>&lt;head&gt;</b>
+    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
+    <i>&lt;!-- D3 inladen --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
+    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
+  <b>&lt;/head&gt;</b>
+  <b>&lt;body&gt;</b>
+    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
+  <b>&lt;/body&gt;</b>
+  <b>&lt;/html&gt;</b>
     </code></pre>
       </figure>
-  </div>
-  </div>
+  <div class="preview_svg" id="voorbeeld2_l4"></div>
 
-  <p>Hier onder zie je hoe de code eruit ziet als het gerunned wordt. Kijk of je snapt hoe de JavaScript effect heeft op de verschillende elementen.</p>
-<div class="container">
-  <div class="row">
-  <div class="col-md-6">
-  <p>Zonder JavaScript</p><br>
-  <p>Hallo</p>
-  <p>Doei</p>
-  <p>Hallo</p>
-  <p>Doei</p>
-  <p>Hallo</p>
-  <p>Doei</p>
-  <p>Hallo</p>
-  <p>Doei</p>
-  </div class="col-md-6">
-  <p>Met JavaScript</p><br>
-  <p class="selection_preview">Hallo</p>
-  <p class="selection_preview">Doei</p>
-  <p class="selection_preview">Hallo</p>
-  <p class="selection_preview">Doei</p>
-  <p class="selection_preview">Hallo</p>
-  <p class="selection_preview">Doei</p>
-  <p class="selection_preview">Hallo</p>
-  <p class="selection_preview">Doei</p>
-  <div>
-  </div>
-  </div>
+<script type="text/javascript">
+    // Specificeer de data in een array
+    data_waardes = [250, 100, 170, 354, 145, 296]
+
+    // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
+    // Op deze manier kun je meerdere variabelen tegelijk initiëren
+    var width = 400,
+         barHeight = 20;
+
+    // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
+    var x = d3.scale.linear()
+      .domain([0, d3.max(data_waardes)])
+      .range([0, width]);
+
+    // Selecteer de div container en geef hem een grootte
+    var svg = d3.select("#voorbeeld2_l4").append("svg")
+      .attr("width", width)
+      .attr("height", barHeight * data_waardes.length);
+
+    var bar = svg.selectAll("g")
+        .data(data_waardes)
+      .enter().append("g")
+        .attr("transform", function(d,i) { return "translate(0, " + i * barHeight + ")"; });
+
+    bar.append("rect")
+        .attr("width", function(d) { return x(d) + "px"; })
+        .attr("height", barHeight - 1)
+        .style("fill", "steelblue");
+
+    bar.append("text")
+      .attr("x", function (d) { return x(d) - 20; })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .attr("fill", "white")
+      .text(function (d) { return d; })
+</script>
 </div>
-
-  <script type="text/javascript">
-    // Zoals je ziet wordt alleen het eerste element blauw
-  d3.select(".selection_preview").style("color", "blue");
-
-  // Alle "p" elementen krijgen font-weight bold (dikgedrukt)
-  d3.selectAll(".selection_preview").style("font-weight", "bold");
-
-  // Alle even p elementen worden goudkleurig gemaakt!
-  d3.selectAll(".selection_preview:nth-child(even)").style("color", "gold").html("Dit is even");
-
-  // Maar zoals je ziet, als we hetzelfde doen maar dan met d3.select()
-     //word alleen het eerste even element geselecteerd.
-  d3.select(".selection_preview:nth-child(even)").style("color", "skyblue").html("Dit is even, zoals je ziet wordt met select alleen het eerste element gepakt.");
-
-  // Op dezelfde manier kunnen we een streep trekken door de oneven elementen
-  d3.selectAll(".selection_preview:nth-child(odd)").style("text-decoration", "line-through");
-
-  // Ook kunnen we de laatste selecteren
-  d3.select(".selection_preview:last-of-type").html("Dit is het laatste element");
-
-  // Of de derde
-  d3.select(".selection_preview:nth-child(3)").style("color", "purple").html("Dit is even");
-  </script>
 </div>
-
-<!-- Second Container (Grid) -->
-<div class="container-fluid bg-3 text-center">
-  <h3 class="margin">Onze eerste barchart</h3>
-  <p>Nu we weten hoe selecties werken (snap je elke soort selectie?) gaan we kijken of we een simpele barchart kunnen maken.
-  Een goede barchart heeft altijd bepaalde elementen die ervoor zorgen dat het goed leesbaar is. Zo kan je hier onder een voorbeeld zien, ook gemaakt in D3. Zoals we zien is er een titel aanwezig die beschrijvend is voor wat de grafiek laat zien. Er wordt duidelijk gemaakt uit welk jaar de data komt, wat de variabelen zijn en welke plaats. Verder moeten er natuurlijk altijd assen zijn! De stapgrootte van je assen moeten bijvoorbeeld logisch zijn. Hier gaat het bijvoorbeeld per half uur, of per maand. Bij beide assen zijn er ook titels die zeggen welke variabele de as representeert. Verder is het laatste (maar minstens net zo belangrijk) element, de bronvermelding. Deze data is bijvoorbeeld gehaald van de KNMI site, waar je heel veel informatie over het weer kan halen. Als we hen niet zouden melden hier, zou het natuurlijk erg onbeleefd naar hun zijn omdat zij alle informatie hebben vergaard. Maar het geeft je lezer ook het idee dat wat ze uit de grafiek lezen echt waar is, omdat het van een betrouwbare bron komt. Belangrijk dus!</p>
-
-<div id="bar_chart_example"></div>
-
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-<script src="../js/bar_chart.js" type="text/javascript"></script>
-
-<p>Zoals je hier boven misschien wel hebt gezien, is er ook extraatje te vinden in de barchart. Er is namelijk een on mouseover functionaliteit in de grafiek gemaakt. Als je bijvoorbeeld met je muis over een van de staven gaat, komt er een pop-up die je de waarde van de staaf verteld. Dit zullen wij ook maken! Maar wel pas aan het einde, dus heb geduld.</p>
-
+</div>
 </div>
 
 <!-- Footer -->

@@ -1,0 +1,114 @@
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: #045a8d;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 12px;
+  cursor: move;
+}
+
+.datamaps-hoverover .hoverinfo {
+    background-color: #045a8d;
+    color: #fff;
+    text-align: center;
+    padding: 5px 5px;
+    border-radius: 6px;
+    font-size: 0.8em;
+}
+
+#infoname {
+  font-size: 1.4em;
+}
+
+.clickable {
+    font-weight: bold;
+    text-decoration: underline;
+    font-color: #045a8d;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: #045a8d;
+  color: #fff;
+  border-radius: 6px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 15px;
+  width: 100%;
+  line-height: 1;
+  color: #045a8d;
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.pop_up_country {
+  color: white;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.legend {
+  margin-bottom: 25px;
+}
+
+blockquote {
+  background: none;
+  font-style: italic;
+  max-width: 700px;
+  text-align: center;
+  margin: auto;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+blockquote p {
+  display: inline;
+}
