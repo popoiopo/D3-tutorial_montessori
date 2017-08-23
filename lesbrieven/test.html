@@ -1,55 +1,65 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<!-- Dit is een normale HTML file -->
+<html>
+<head>
+  <title> Barchart </title>
+  <!-- D3 inladen -->
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- Inladen van mijn JavaScript code -->
+</head>
+<body>
+  <div id="voorbeeld"><div>
+</body>
+</html>
 
-.chart rect {
-  fill: steelblue;
-}
-
-.chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-
-</style>
- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
- <div id="voorbeeld"><div>
-<script>
+<script type="text/javascript">
 
     // Specificeer de data in een array
     data_waardes = [250, 100, 170, 354, 145, 296]
 
-    // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
+    // Als je veel waardes hebt kan je de dimensies van je SVG ook vast zetten
     var width = 400,
-         barHeight = 20;
+         height = 500;
 
-    // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
-    var x = d3.scale.linear()
+    // Dit keer gebruiken we een d3.scale.linear() voor de y waarde!
+    var y = d3.scale.linear()
       .domain([0, d3.max(data_waardes)])
-      .range([0, width]);
+      // Hier gebruiken we dit keer de height van de SVG omdat we de hoogte in gaan nu
+      .range([height, 0]);
+
+    // We berekenen de breedte van elke bar door de totale breedte te delen door het aantal data punten
+    var bar_width = width / data_waardes.length;
 
     // Selecteer de div container en geef hem een grootte
     var svg = d3.select("#voorbeeld").append("svg")
       .attr("width", width)
-      .attr("height", barHeight * data_waardes.length);
+      .attr("height", height);
 
-    // Het appenden van de rects
+    // Het appenden van de grouping elementen
     var bar = svg.selectAll("g")
         .data(data_waardes)
       .enter().append("g")
-        .attr("transform", function(d,i) { return "translate(0, " + i * barHeight + ")"; });
+        // De translate veranderd aangezien we nu onze bars horizontaal verspreiden
+        // Daarom is het eerste getal (x) veranderlijk, en tweede getal (y) blijft 0
+        .attr("transform", function(d,i) { return "translate(" + i * bar_width + ",0)"; });
 
+      // Append de rect aan het grouping element
       bar.append("rect")
-        .attr("width", function(d) { return x(d) + "px"; })
-        .attr("height", barHeight - 1)
+        // Geef aan waar de bar moet beginnen
+        .attr("y", function(d) { return y(d); })
+        // Geef aan hoe hoog de bar moet worden
+        .attr("height", function(d) { return height - y(d); })
+        .attr("width", bar_width - 1)
         .style("fill", "steelblue");
 
+      // En we appenden te text weer
       bar.append("text")
-        .attr("x", function(d) {return x(d) - 30; })
-        .attr("y", barHeight / 2 )
-        .attr("dy", ".35em")
+        // We gebruiken text-anchor zodat het aanknooppunt van de text zelf in het midden genomen wordt. Haal dit maar weg en kijk wat er gebeurt!
+        .attr("text-anchor", "middle")
+        .attr("x", bar_width / 2)
+        .attr("y",  function(d) {return y(d) + 30; })
+        .attr("dy", ".75em")
         .style("fill", "white")
         .text(function (d) { return d; });
-  
+
 </script>

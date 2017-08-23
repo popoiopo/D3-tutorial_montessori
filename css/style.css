@@ -73,6 +73,10 @@ p {font-size: 16px;
     margin-bottom: 25px;
 }
 
+.active {
+    font-weight:bold;
+}
+
 #wrapper {
     text-align: center;
 }
@@ -101,8 +105,13 @@ p {font-size: 16px;
     margin-bottom: 30px;
 }
 
-.wrappertje { 
-  border : 2px solid #000; 
+.preview_svg2 {
+    margin-top: 125px;
+    margin-bottom: 30px;
+}
+
+.wrappertje {
+  border : 2px solid #000;
   overflow:hidden;
 }
 
@@ -112,12 +121,12 @@ p {font-size: 16px;
 }
 #wrappertje_first {
   background-color: gray;
-  float:left; 
+  float:left;
   margin-right:20px;
   width:140px;
   border-right:2px solid #000;
 }
-#wrappertje_second { 
+#wrappertje_second {
   background-color: white;
   overflow:hidden;
   margin:10px;
@@ -126,15 +135,19 @@ p {font-size: 16px;
 }
 
 @media screen and (max-width: 400px) {
-   #wrappertje_first { 
+   #wrappertje_first {
     float: none;
     margin-right:0;
     width:auto;
     border:0;
-    border-bottom:2px solid #000;    
+    border-bottom:2px solid #000;
   }
 }
 
 p.text_row {
     margin-top: 15px;
+}
+
+.list_item {
+    margin-top:18px
 }
