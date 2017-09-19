@@ -32,11 +32,11 @@ function draw_barchart (div) {
 
   //maakt text voor pop up tip
   var tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([-10, 0])
-        .html(function(d) {
-          return "<strong>Hours of rain:</strong> <span style='color:red'>" + d.Duur + "</span>";
-        })
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>Hours of rain:</strong> <span style='color:red'>" + d.Duur + "</span>";
+    });
 
   svg.call(tip);
 
@@ -51,7 +51,7 @@ function draw_barchart (div) {
 
     // specify domains of x and y scales
     x.domain(data.map(function(d) { return d.Month; }) );
-    y.domain([0, d3.max(data, function(d) { return d.Duur}) ] );
+    y.domain([0, d3.max(data, function(d) { return d.Duur; }) ]);
 
     // drawing bars
     svg.selectAll('bar')

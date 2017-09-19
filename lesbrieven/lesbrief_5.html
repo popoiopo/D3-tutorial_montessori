@@ -12,7 +12,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/codeblock.css">
-  <link rel="stylesheet" href="../css/style_solar.css">
   <link rel="stylesheet" href="../css/bar_chart.css">
   <script src="../js/codeblock.js"></script>
 </head>
@@ -43,720 +42,129 @@
 
 <!-- First Container -->
 <div class="container-fluid bg-1 text-center" id="linked_views_body">
-  <h3 class="margin">Lesbrief 4</h3>
-  <p>Zoals altijd beginnen we de lesbrief met een voorbeeld van een D3 visualisatie. Dit keer heb ik er een van mijzelf uit de oude doos gehaald, namelijk een linked views. Hier heb ik een database gebruikt met allemaal informatie over elementen die mogelijk zouden kunnen bijdragen aan hoe men hun eigen geluk zouden waarnemen. Zo heb je het inkomen, CO2 uitstoot van het land, levensverwachting, hoe dikbevolkt het land is en drie maatstaven die de Happy Planet Index gebruikt om mensen hun geluk te meten. Over elk land kan je met je muis een pop-up zien die je alle waardes geeft. Als je op een land klikt zie je dat de lijn die dat land representeert in de onderste grafiek (deze heet een parallel coordinates graph) rood worden. Vervolgens kan je op de rode lijn klikken weer om hem naar voren te laten springen. De kaart kan ook gekleurt worden op meerdere variabelen, bijvoorbeeld als je klikt op de variabele naam. En je kan een selectie maken in de parallel coordinates graph. Speel maar even met de visualisaties zodat je kunt zien hoe dingen met elkaar in verband staan. </p>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-  <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-  <script src="https://d3js.org/queue.v1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.9.0/d3-legend.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.9.0/d3-legend.min.js"></script>
-  <script src="../js/datamaps.world.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="../css/linked_views.css">
-  <p>Source: <a href="https://www.happyplanetindex.org/data/" target="_blank">Happy planet index </a></p>
-  <div id="container" style="position: relative; width: 960px; height: 550px; display: inline-block"></div>
-  <script src="../js/linked_views.js" type="text/javascript"></script>
+  <h3 class="margin">Lesbrief 5</h3>
+  <p>Dit zal de laatste lesbrief zijn! Gefeliciteerd, je bent bijna klaar. Als laatste voorbeeld van D3 gebruik zien we hier onder een aantal bollen die naar elkaar toe groeperen, en juist van de muis af worden geduwd. Dit is heel interessant mocht je bijvoorbeeld ooit een simulatie willen bouwen om te laten zien hoe planeten elkaar aantrekken, of hoe moleculen gevormd worden, je kunt het zo gek niet bedenken!</p> <a href="https://bl.ocks.org/mbostock/3231298">Klik hier om de code te zien (gemaakt door Mike Bostock)</a>
+  <div id="voorbeeld"></div>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="../js/collision.js"></script>
 </div>
 
 <!-- Second Container (Grid) -->
 <div class="container-fluid bg-3 text-center">
-  <h3 class="margin">Een introductie in gebruik van Scales</h3><br>
-  <p>In de vorige lesbrief hebben de grootte van de kolommen (bars) gelijk gesteld aan de waarde die het representeerde. Dus de waarde 95 werd een rect van 95 pixel in de breedte. Maar soms moet je natuurlijk waardes visualiseren die misschien wel in de miljoenen zitten. Deze bars kunnen dan niet een miljoen pixel breed zijn. De D3 library heeft een elegante oplossing voor ons bedacht. Er bestaat namelijk een functie <code>d3.scale.linear()</code> en deze functie zorgt ervoor dat er een juiste verdeling komt voor de grootte van je bars.</p>
-  <p>Stel bijvoorbeeld dat je een container van 400 bij 400 pixel wilt gebruiken. Maar de waardes komen boven de 500 uit. Als je deze ook wilt laten zien zal je de grootte van de bars allemaal relatief aan elkaar moeten aanpassen. Je hebt namelijk je maximale waarde die je wilt visualiseren (max waarde uit je data), en de maximale grootte van je container. Wat de <code>d3.scale.linear()</code> functie doet is het aantal pixels berekenen dat je bar groot moet zijn als de grootste waarde netjes de container grootte vult.</p>
-  <p> De functie heeft 2 argumenten nodig: het domein en de range. Het domein zal de minimale waarde zijn die je wilt visualiseren, samen met de maximale waarde. Meestal is dit dus <code>[0, d3.max(data)]</code> waarbij <code>d3.max()</code> op zichzelf weer een functie is die je grootste waarde uit je data plukt. De range is de grootte van je container, dus dat zal vaak <code>[0, width]</code> zijn waar width de breedte is van je container. Om dit wat duidelijker te maken, zie het plaatje hier onder. Het domein (dus de reikwijdte van je data) gaat in dit geval over dat mensen bijvoorbeeld 20 tot 80 appels hebben om te verkopen. 20 is hierbij de minimale hoeveelheid, en 80 is de max (<code>[0,80]</code> dus eigenlijk). Onze container is 120 pixels groot, dus deze loopt van <code>[0, 120]</code>. Stel we willen een bar maken die 50 appels te verkopen representeert. Als we onze bars netjes willen verspreiden over de container kunnen we niet simpelweg zeggen dat de bar ook 50 pixel moet zijn. Zoals je misschien al hebt gezien zit het getal 50 precies tussen de 20 en de 80. Dus zou het logisch zijn om de bar ook precies tussen de 0 en de 120 te laten zien (dus 60). </p>
-
-  <img style="margin-top:20px" src="../images/d3scale1.png">
-
-  <p style="margin-top:20px">Zo kunnen we het laatste voorbeeld van de vorige lesbrief bijvoorbeeld omschrijven naar het volgende:</p>
-
+  <h3 class="margin">Meer over scales</h3><br>
   <div class="row">
   <div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">script.js</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-    <b>// Specificeer de data in een array</b>
-    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
+    <p>Als je een grafiek maakt (barchart, scatterplot etc) heb je altijd soorten data die je gebruikt. Zo heb je bij een kalender de dagen, maanden en jaren die puntsgewijs worden laten zien. De kalender maakt als het ware een onderverdeling van deze soorten data. Maar je kan ook bijvoorbeeld het aantal vergelijkingen in lengte maken tussen mannen en vrouwen, kijken hoeveel Nederlanders olypmische medailles hebben gewonnen of kijken hoeveel mensen in Nederland een IQ hebben tussen de 100 en 110, 110 en 120, etc. Dit zijn allemaal andere soorten data die je soms moet kunnen herkennen om te weten wat voor visualisatie daarbij hoort zodat je weet welke scales je moet gebruiken. Rechts zie je een paar voorbeelden hiervan die belangrijk zijn. Klik er op en er zal wat info over verschijnen.</p>
+  </div>
 
-    <b>// Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren</b>
-    <b>// Op deze manier kun je meerdere variabelen tegelijk initiëren</b>
-    <strong>var</strong> width = 400,
-         barHeight = 20;
+  <div class="col-md-6">
+    <!-- Accordion -->
+    <div id="accordion" class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" href="#collapse-One" data-parent="#accordion" data-toggle="collapse">
+                        Nominaal (Categorical)
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse-One" class="accordion-body collapse in">
+                <div class="panel-body">
+                  <div class="col-md-6">
+                    <p>Bij een nominaal type data bestaat de variabele uit verschillende waarden waar geen verschil zit tussen beide. Er zijn dus verschillende categorieën aan te duiden, maar er zijn geen verschillen tussen deze categorieën. Het gaat hier daarom slechts om het benoemen van de bijbehorende waarde.</p>
+                  </div>
+                  <div class="col-md-6" style="text-align:left;">
+                    <p>Voorbeelden zijn:</p>
+                    <ul>
+                      <li>vrouw / man</li>
+                      <li>provincies</li>
+                      <li>automerken</li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" href="#collapse-Two" data-parent="#accordion" data-toggle="collapse">
+                        Ordinaal (Ordinal)
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse-Two" class="accordion-body collapse">
+                <div class="panel-body">
+                  <div class="col-md-6">
+                    <p>Bij een ordinaal type data bestaat de variabele uit verschillende waarden waar wel verschil tussen beide zit. Er zijn verschillende categorieën aan te duiden, waar verschillen tussen zitten. Deze verschillen zijn echter niet goed aan te duiden.</p>
+                  </div>
+                  <div class="col-md-6" style="text-align:left;">
+                    <p>Voorbeelden zijn:</p>
+                    <ul>
+                      <li>eens / neutraal / oneens</li>
+                      <li>goud / zilver / brons</li>
+                      <li>vmbo / havo / vwo</li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle" href="#collapse-Three" data-parent="#accordion" data-toggle="collapse">
+                        Lineair (Linear)
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse-Three" class="accordion-body collapse">
+                <div class="panel-body">
+                 <div class="col-md-6">
+                    <p>Bij een lineair data type bestaat de variabele uit waardes die binnen een bepaalde lijn zitten. Dit heb je bijvoorbeeld al kunnen zien op de y-as in de vorige lesbrief. De hoogte van de bars zaten netjes verspreid over de y-as ten opzichte van elkaars waardes.</p>
+                  </div>
+                  <div class="col-md-6" style="text-align:left;">
+                    <p>Voorbeelden zijn:</p>
+                    <ul>
+                      <li>Percentages</li>
+                      <li>Afstanden</li>
+                      <li>Geluidssterkte</li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Accordion -->
+  </div>
+  </div>
 
+  <script type="text/javascript">
+    var x = d3.scale.ordinal()
+    .domain(["A", "B", "C", "D", "E", "F"])
+    .range([0, 1, 2, 3, 4, 5]);
+  </script>
 
-    <b>// Zorg dat de d3.scale.linear() functie klaar staat voor gebruik</b>
-    <strong>var</strong> x = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      .range([0, width]);
-
-    <b>// Selecteer de div container en geef hem een grootte</b>
-    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
-      .attr(<u>"width"</u>, width</b>)
-      <b>// In plaats van de hoogte van je svg vast te leggen</b>
-      <b>// kan je hem ook variabel maken door de hoogte</b>
-      <b>// van 1 bar keer de totale hoeveelheid bars die </b>
-      <b>// je wilt visualiseren. Zo heb je altijd genoeg ruimte!</b>
-      .attr(<u>"height"</u>, barHeight * data_waardes.length</b>);
-
-    <b>// Het appenden van de rects</b>
-    svg.selectAll(<u>"rect"</u>)
-        .data(data_waardes)
-      .enter().append("rect")
-        .attr(<u>"x"</u>, <b>10</b>)
-        <b>// Omdat we dit keer de barheight boven hebben gedefinieert kunnen we dat</b>
-        <b>// gewoon i.p.v. de 80 nemen</b>
-        <b>// En als we de margin 10 weg laten ziet het er ook meteen wat gelikter uit</b>
-        .attr(<u>"y"</u>, <strong>function</strong>(d,i) {<b>return</b> i <b>*</b> barHeight; })
-        <b>// Het gebruik van de d3.scale! Zoals je ziet neemt de grootste bar nu </b>
-        <b>// de gehele grootte van de container over</b>
-        .attr(<u>"width"</u>, <strong>function</strong>(d) { <b>return</b> x(d) <b>+</b> <u>"px"</u>; })
-        <b>// Omdat we wel wat witruimte willen hebben kunnen we de barheight </b>
-        <b>// met 1 kleiner maken zodat er toch nog een margin van 1 pixel is</b>
-        .attr(<u>"height"</u>, barHeight - <b>1</b>)
-        .style(<u>"fill"</u>, <u>"steelblue"</u>);
-  </code></pre>
-      </figure>
-</div>
-<div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">barchart.html</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-  <b>&lt;!DOCTYPE html&gt;</b>
-  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
-  <b>&lt;html&gt;</b>
-  <b>&lt;head&gt;</b>
-    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
-    <i>&lt;!-- D3 inladen --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-  <b>&lt;/head&gt;</b>
-  <b>&lt;body&gt;</b>
-    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
-  <b>&lt;/body&gt;</b>
-  <b>&lt;/html&gt;</b>
-    </code></pre>
-      </figure>
-  <div class="preview_svg2" id="voorbeeld1_l4"></div>
-
-<script type="text/javascript">
-    // Specificeer de data in een array
-    data_waardes = [250, 100, 170, 354, 145, 296]
-
-    // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
-    // Op deze manier kun je meerdere variabelen tegelijk initiëren
-    var width = 400,
-         barHeight = 20;
-
-    // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
-    var x = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      .range([0, width]);
-
-    // Selecteer de div container en geef hem een grootte
-    var svg = d3.select("#voorbeeld1_l4").append("svg")
-      .style("border", "1px solid black")
-      .attr("width", width)
-      // In plaats van de hoogte van je svg vast te leggen
-      // kan je hem ook variabel maken door de hoogte
-      // van 1 bar keer de totale hoeveelheid bars die
-      // je wilt visualiseren. Zo heb je altijd genoeg ruimte!
-      .attr("height", barHeight * data_waardes.length);
-
-    svg.selectAll("rect")
-        .data(data_waardes)
-      .enter().append("rect")
-        .attr("x", 10)
-        .attr("y", function(d,i) {return i * barHeight; })
-        .attr("width", function(d) { return x(d) + "px"; })
-        .attr("height", barHeight - 1)
-        .style("fill", "steelblue");
-</script>
-
-</div>
-</div>
-
-<p>Zoals je kunt zien zijn we al aardig dichtbij het maken van onze eigen barchart! Het enige is alleen wel dat we nu allemaal rects hebben gemaakt, maar als je bijvoorbeeld ook tekst wilt laten zien op de bar zelf dan kan dat niet. Hiervoor zal er een soort canvas element moeten worden gebruikt. Iets om verder dingen aan te appenden. Hiervoor gebruiken we <code>g-elementen</code>. Dit is een grouping element wat alles dat erin gestopt wordt dus groepeert. Zo kunnen we bijvoorbeeld een g-element maken waar we vervolgens een rect aan appenden om de bars te maken, maar ook een tekst element om de absolute waardes te laten zien de de bar zelf representeert. In het volgende voorbeeld zullen we precies dat doen. Allereerst beginnen we met dezelfde setup als het vorige voorbeeld, maar gaan dan eerst g-elementen appenden aan de container waarin vervolgens de rects en de tekst in gaat. Verder gaan we nog een nieuw attribuut gebruiken, namelijk het <code>transform-attribuut</code>. Dit doet in feite hetzelfde als <code>.attr("y", function(d,i) {return i * barHeight; })</code> maar zorgt er voor dat alles wat in het element zit ook mee gaat. Omdat de rect en de text allebei in de g zit, hoeven we dus alleen de coordinaten van de g te veranderen om dingen op de goede plaats te krijgen.</p>
-
-
+  <p>Als we bijvoorbeeld gaan kijken hoe vaak bepaalde letters in het alfabet voorkomen zullen we dus een ordinale schaal moeten gebruiken. Net zoals <code>d3.scale.linear()</code> bestaat kunnen we ook <code>d3.scale.ordinal()</code> gebruiken. Als we in deze functie het domein en de range zouden mee geven zou het in het geval van letters in het alfabet eruit zien als het volgende: </p>
   <div class="row">
   <div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">script.js</figcaption>
+    Het resultaat van x("A") zal 0 zijn, x("B") zal 1 zijn en zo gaat het verder. Het enige wat dus uit maakt hierbij is welke volgorde de waardes hebben in het domein en in de range. Het i'de element in domein, zal dus verwijzen naar het i'de element van de range.
+  </div>
+  <div class="col-md-6">
+  <figure>
   <pre
     aria-describedby="example1-description"
     aria-labelledby="example1-caption"><code
     contenteditable="true"
     tabindex="0"
     spellcheck="false">
-    <b>// Specificeer de data in een array</b>
-    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
-
-    <b>// Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren</b>
-    <strong>var</strong> width = 400,
-         barHeight = 20;
-
-    <b>// Zorg dat de d3.scale.linear() functie klaar staat voor gebruik</b>
-    <strong>var</strong> x = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      .range([0, width]);
-
-    <b>// Selecteer de div container en geef hem een grootte</b>
-    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
-      .attr(<u>"width"</u>, width</b>)
-      .attr(<u>"height"</u>, barHeight * data_waardes.length</b>);
-
-    <b>// Het appenden van de rects</b>
-    <strong>var</strong> bar = svg.selectAll(<u>"g"</u>)
-        .data(data_waardes)
-      .enter().append("g")
-        .attr(<u>"transform"</u>, <strong>function</strong>(d,i) { <b>return</b> <u>"translate(0, "</u> + i <b>*</b> barHeight + <u>")"</u>; });
-
-      bar.append(<u>"rect"</u>)
-        .attr(<u>"width"</u>, <strong>function</strong>(d) { <b>return</b> x(d) <b>+</b> <u>"px"</u>; })
-        .attr(<u>"height"</u>, barHeight - <b>1</b>)
-        .style(<u>"fill"</u>, <u>"steelblue"</u>);
-
-      bar.append(<u>"text"</u>)
-        .attr(<u>"x"</u>, <strong>function</strong>(d) {<b>return</b> x(d) - <b>30</b>; })
-        .attr(<u>"y"</u>, barHeight / <b>2</b> )
-        .attr(<u>"dy"</u>, <u>".35em"</u>)
-        .style(<u>"fill"</u>, <u>"white"</u>)
-        .text(<strong>function</strong> (d) { <b>return</b> d; });
-  </code></pre>
-      </figure>
-
-
-</div>
-<div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">barchart.html</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-  <b>&lt;!DOCTYPE html&gt;</b>
-  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
-  <b>&lt;html&gt;</b>
-  <b>&lt;head&gt;</b>
-    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
-    <i>&lt;!-- D3 inladen --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-  <b>&lt;/head&gt;</b>
-  <b>&lt;body&gt;</b>
-    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
-  <b>&lt;/body&gt;</b>
-  <b>&lt;/html&gt;</b>
+  <b>// ordinal scale maken</b>
+  <strong>var</strong> x = d3.scale.ordinal()
+    <b>// Om het even simpel te houden gebruiken we alleen de eerste zes letters van het alfabet</b>
+    .domain([<u>"A"</u>,<u>"B"</u>,<u>"C"</u>,<u>"D"</u>,<u>"E"</u>,<u>"F"</u>])
+    .range([<b>0</b>,<b>1</b>,<b>2</b>,<b>3</b>,<b>4</b>,<b>5</b>]);
     </code></pre>
       </figure>
-  <div class="preview_svg2" id="voorbeeld2_l4"></div>
-
-<script type="text/javascript">
-    // Specificeer de data in een array
-    data_waardes = [250, 100, 170, 354, 145, 296]
-
-    // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
-    // Op deze manier kun je meerdere variabelen tegelijk initiëren
-    var width = 400,
-         barHeight = 20;
-
-    // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
-    var x = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      .range([0, width]);
-
-    // Selecteer de div container en geef hem een grootte
-    var svg = d3.select("#voorbeeld2_l4").append("svg")
-      .style("border", "1px solid black")
-      .attr("width", width)
-      .attr("height", barHeight * data_waardes.length);
-
-    var bar = svg.selectAll("g")
-        .data(data_waardes)
-      .enter().append("g")
-        .attr("transform", function(d,i) { return "translate(0, " + i * barHeight + ")"; });
-
-    bar.append("rect")
-        .attr("width", function(d) { return x(d) + "px"; })
-        .attr("height", barHeight - 1)
-        .style("fill", "steelblue");
-
-    bar.append("text")
-      .attr("text-anchor", "middle")
-      .attr("x", function (d) { return x(d) - 20; })
-      .attr("y", barHeight / 2)
-      .attr("dy", ".35em")
-      .attr("fill", "white")
-      .text(function (d) { return d; })
-</script>
-</div>
-</div>
-<h3>Het omkantelen van de grafiek</h3>
-<p>Zoals je misschien wel weet zijn barcharts vrijwel altijd verticaal georiënteerd, dat betekent dat we de grafiek op de een of andere manier een kwartslag moeten draaien. Dit zal een aantal kleine aanpassingen vereisen.</p>
-
-<a class="list-group-item lijst_items">
-  <h4 class="list-group-item-heading">x-scale omzetten in y-scale</h4>
-  <p class="list-group-item-text">In lesbrief 2 hebben we al behandeld dat het [0,0] punt van een SVG linksboven ligt. Het [0,0] punt van een grafiek ligt echter links onder. Dit zorgt er voor dat we buiten de x scale ook een y scale moeten maken (omdat we nu de hoogte in gaan i.p.v. alleen de breedte). Dit gaat eigenlijk vrij gemakkelijk, hiervoor kunnen we namelijk gewoon de x scale van het vorige voorbeeld gebruiken en omzetten naar een y scale door de range aan te passen. De range veranderd dan van [0, width] naar [height, 0].</p>
-</a>
-<a class="list-group-item lijst_items">
-  <h4 class="list-group-item-heading">bar_width gebruiken i.p.v. bar_height</h4>
-  <p class="list-group-item-text">Verder moeten we de width en de height attributen van de rects ook andersom doen. Nu komen de bars van links naar rechts i.p.v. boven naar beneden.</p>
-</a>
-<a class="list-group-item lijst_items">
-  <h4 class="list-group-item-heading">Translate aanpassen bij het maken van de g-elementen</h4>
-  <p class="list-group-item-text">Omdat de bars zich nu horizontaal verspreiden is het noodzaak om het eerste argument van de translate functie te veranderen. Aangezien de bars onderaan altijd op dezelfde hoogte hetzelfde blijven kunnen we het tweede argument op nul houden.</p>
-</a>
-<a class="list-group-item lijst_items">
-  <h4 class="list-group-item-heading">Bij het appenden van de rects het y-attribuut gebruiken</h4>
-  <p class="list-group-item-text">Het y-attribuut zorgt ervoor dat de dingen die je tekent een bepaald aantal pixels naar beneden zal gaan over het y-domein. Dit betekent dat als we de hoogste waarde de wie hebben in de y scale functie zetten, we een nul terug krijgen. Hierdoor begint de bar helemaal bovenin de SVG. De laagste data waarde door de y scale functie zal dus een hogere waarde geven, waardoor de bar lager begonnen wordt met tekenen. De height die we daarna mee geven zal de hoogte van de bar zelf zijn. Deze zal dus altijd gaan tot het punt die we als het nul-punt van de y-as zouden zien.</p>
-</a>
-<a class="list-group-item lijst_items">
-  <h4 class="list-group-item-heading">Aanpassen locatie van de labels</h4>
-  <p class="list-group-item-text">Dit keer zijn de locaties van de labels omgedraaid. Dit zullen we in de code dan ook moeten aanpassen.</p>
-</a>
-
-  <div class="row">
-  <div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">script.js</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-    <b>// Specificeer de data in een array</b>
-    data_waardes <u>=</u> [<u>250</u>, <u>100</u>, <u>170</u>, <u>354</u>, <u>145</u>, <u>296</u>]
-
-    <b>// Als je veel waardes hebt kan je de dimensies van je SVG ook vast zetten</b>
-    <strong>var</strong> width = 400,
-         height = 500;
-
-    <b>// Dit keer gebruiken we een d3.scale.linear() voor de y waarde!</b>
-    <strong>var</strong> y = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      <b>// Hier gebruiken we dit keer de height van de SVG omdat we de hoogte in gaan nu</b>
-      .range([height, 0]);
-
-    <b>// We berekenen de breedte van elke bar door de totale breedte te delen door het aantal data punten</b>
-    <strong>var</strong> bar_width = width / data_waardes.length;
-
-    <b>// Selecteer de div container en geef hem een grootte</b>
-    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
-      .attr(<u>"width"</u>, width)
-      .attr(<u>"height"</u>, height);
-
-    <b>// Het appenden van de grouping elementen</b>
-    <strong>var</strong> bar = svg.selectAll(<u>"g"</u>)
-        .data(data_waardes)
-      .enter().append("g")
-        <b>// De translate veranderd aangezien we nu onze bars horizontaal verspreiden</b>
-        <b>// Daarom is het eerste getal (x) veranderlijk, en tweede getal (y) blijft 0</b>
-        .attr(<u>"transform"</u>, <strong>function</strong>(d,i) { <b>return</b> <u>"translate("</u> + i <b>*</b> bar_width + <u>",0)"</u>; });
-
-      <b>// Append de rect aan het grouping element</b>
-      bar.append(<u>"rect"</u>)
-        <b>// Geef aan waar de bar moet beginnen</b>
-        .attr(<u>"y"</u>, <strong>function</strong>(d) { <b>return</b> y(d); })
-        <b>// Geef aan hoe hoog de bar moet worden</b>
-        .attr(<u>"height"</u>, <strong>function</strong>(d) { <b>return</b> height - y(d); })
-        .attr(<u>"width"</u>, bar_width - 1)
-        .style(<u>"fill"</u>, <u>"steelblue"</u>);
-
-      <b>// En we appenden te text weer</b>
-      bar.append(<u>"text"</u>)
-        <b>// We gebruiken text-anchor zodat het aanknooppunt van de text zelf in het midden genomen wordt. Haal dit maar weg en kijk wat er gebeurt!</b>
-        .attr(<u>"text-anchor"</u>, <u>"middle"</u>)
-        .attr(<u>"x"</u>, bar_width / 2)
-        .attr(<u>"y"</u>,  <strong>function</strong>(d) {<b>return</b> y(d) + <b>30</b>; })
-        .attr(<u>"dy"</u>, <u>".75em"</u>)
-        .style(<u>"fill"</u>, <u>"white"</u>)
-        .text(<strong>function</strong> (d) { <b>return</b> d; });
-  </code></pre>
-      </figure>
-
-
-</div>
-<div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">barchart.html</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-  <b>&lt;!DOCTYPE html&gt;</b>
-  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
-  <b>&lt;html&gt;</b>
-  <b>&lt;head&gt;</b>
-    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
-    <i>&lt;!-- D3 inladen --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-  <b>&lt;/head&gt;</b>
-  <b>&lt;body&gt;</b>
-    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
-  <b>&lt;/body&gt;</b>
-  <b>&lt;/html&gt;</b>
-    </code></pre>
-      </figure>
-  <div class="preview_svg2" id="voorbeeld3_l4"></div>
-
-<script type="text/javascript">
- // Specificeer de data in een array
-  data_waardes = [250, 100, 170, 354, 145, 296]
-
-  // Het is ook altijd netjes om de breedte en hoogte van te voren te specificeren
-  var width = 480,
-       height = 250;
-
-  // Zorg dat de d3.scale.linear() functie klaar staat voor gebruik
-  var y = d3.scale.linear()
-    .domain([0, d3.max(data_waardes)])
-    .range([height, 0]);
-
-  var barWidth = width / data_waardes.length;
-
-  // Selecteer de div container en geef hem een grootte
-  var svg = d3.select("#voorbeeld3_l4").append("svg")
-    .style("border", "1px solid black")
-    .attr("width", width)
-    .attr("height", height);
-
-  // Het appenden van de rects
-  var bar = svg.selectAll("g")
-      .data(data_waardes)
-    .enter().append("g")
-      .attr("transform", function(d,i) { return "translate(" + i * barWidth + ",0)"; });
-
-    bar.append("rect")
-      .attr("y", function(d) {return y(d); })
-      .attr("height", function(d) { return height - y(d); })
-      .attr("width", barWidth - 1)
-      .style("fill", "steelblue");
-
-    bar.append("text")
-      .attr("text-anchor", "middle")
-      .attr("x", barWidth / 2)
-      .attr("y", function(d) {return y(d) + 30; })
-      .attr("dy", ".75em")
-      .style("fill", "white")
-      .text(function (d) { return d; });
-</script>
-
-</div>
-</div>
-<h3>Data extern inladen</h3>
-<p>Een array vullen met waardes is natuurlijk heel erg leuk en aardig, maar stel je voor dat je duizend waardes hebt?! Dat wens je niemand toe om dat met de hand in te gaan voeren! Daarom is extern inladen van belang om goed te kunnen. Op deze manier kunnen we data inladen uit een ander bestand en dat vervolgens in onze JavaScript code gebruiken alsof het inderdaad gewoon een array was die we er als vanouds in hebben gezet. Het is vrij gemakkelijk maar er zitten toch wel een paar haken en ogen aan. Zo heb je bijvoorbeeld verscheidene soorten data formats die je kan gebruiken. Hier onder zie je een klein lijstje van meest gebruikte data formats, en hoe ze er uit zien.
-
-<div class="row">
-  <div class="col-md-6">
-    <a class="list-group-item list_item">
-      <h4 class="list-group-item-heading">CSV</h4>
-      <p class="list-group-item-text">CSV staat voor Comma Seperated Values. Dit betekent dus dat de waardes gescheiden zijn door komma's. Zoals je hierna ziet bestaat de eerste rij uit variabele namen, en vanaf daar staat elke rij voor een persoon. De naam, leeftijd en lengte staan allemaal netjes naast elkaar gescheiden door een komma. Het hoeft natuurlijk niet altijd een persoon te zijn, het kunnen ook kenmerken van auto's zijn (verbruik,merk,grootte etc) of een huis ("aantal kamer",oppervlakte,verdiepingen etc). Je kunt het zo gek niet bedenken. </p>
-      </a>
   </div>
-  <div class="col-md-6">
-    <figure>
-          <figcaption id="example1-caption">data.csv</figcaption>
-    <pre
-      aria-describedby="example1-description"
-      aria-labelledby="example1-caption"><code
-      contenteditable="true"
-      tabindex="0"
-      spellcheck="false">
-      name,age,height
-      Bas,26,180
-      Cody,14,165
-      Stella,19,171
-      </code></pre>
-        </figure>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <a class="list-group-item list_item">
-      <h4 class="list-group-item-heading">TSV</h4>
-      <p class="list-group-item-text">TSV staat voor Tab Seperated Values. Dit betekent dus dat de waardes gescheiden zijn door tabjes wat normaal 2 of 4 spaties zou zijn. Hetzelfde principe geldt hier eigenlijk als bij het CSV format. Bovenste rij bestaat uit variabele namen terwijl de rijen er onder de verschillende groepen (personen, auto's, huizen etc) zijn. </p>
-      </a>
-  </div>
-  <div class="col-md-6">
-    <figure>
-          <figcaption id="example1-caption">data.csv</figcaption>
-    <pre
-      aria-describedby="example1-description"
-      aria-labelledby="example1-caption"><code
-      contenteditable="true"
-      tabindex="0"
-      spellcheck="false">
-      verbruik  merk  grootte
-      Bas  26 180
-      Cody  14 165
-      Stella 19  171
-      </code></pre>
-        </figure>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <a class="list-group-item list_item">
-      <h4 class="list-group-item-heading">JSON</h4>
-      <p class="list-group-item-text">JSON staat voor JavaScript Object Notation. Dit format is conceptueel wat lastiger, maar wordt heel erg veel gebruikt. Er wordt hier namelijk een bepaalde hiërarchie aangebracht. Neem bijvoorbeeld een land als Nederland. Nederland heeft een nationaal inkomen, een grootte van de populatie, een bepaalde oppervlakte in vierkante meters. Maar er zijn natuurlijk meerdere landen die deze eigenschappen hebben. Zo kan je dus bijvoorbeeld een variabele hebben die landen heet, en daarin een lijst van verschillende landen. Maar deze landen zijn op hun beurt ook weer een variabele die de voorgenoemde eigenschappen bevatten. In het voorbeeld hiernaast kun je dit heel erg visueel zien. Een JSON zit namelijk in elkaar d.m.v. key/value pairs of dictionaries. De variabelenaam "landen" is namelijk een key oftewel een sleutel die de deur open doet voor waardes in de laag er onder, de landnamen. Deze landnamen zijn op zichzelf weer een key voor de verscheidene variabelen die elk land beschrijven die op hun beurt weer een waarde hebben. Op deze manier kan je van een hoog niveau ("landen") methodologisch jezelf naar beneden werken naar de lagere niveau's (bijv. "oppervlakte").</p>
-      </a>
-  </div>
-  <div class="col-md-6">
-    <figure>
-          <figcaption id="example1-caption">data.csv</figcaption>
-    <pre
-      aria-describedby="example1-description"
-      aria-labelledby="example1-caption"><code
-      contenteditable="true"
-      tabindex="0"
-      spellcheck="false">
-      [{
-        "landen": {
-          "nederland": {
-            "nationaal_inkomen": 738419,
-            "oppervlakte": 41543,
-            "populatie_grootte": 17148952
-          },
-          "frankrijk": {
-            "nationaal_inkomen": 2421560,
-            "oppervlakte": 643801,
-            "populatie_grootte": 62814233
-          },
-          "duitsland": {
-            "nationaal_inkomen": 3357614,
-            "oppervlakte": 357376,
-            "populatie_grootte": 80722792
-          }
-        }
-      }]
-      </code></pre>
-        </figure>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 list_item">
-    <p>Deze verschillende data types zijn allemaal gemakkelijk in te laden tot JavaScript d.m.v. D3. Met het stukje code hier naast kan dat bijvoorbeeld. Het maakt niet uit welke datatypes je gebruikt, aangezien de d3 functie er automatisch intern een json van maakt. Dus het gebruiken van de data zou vervolgens hetzelfde moeten zijn. Er zijn echter verder wel wat dingen die verder handig zijn om te weten. De data die je laad in namelijk niet global, het bestaat niet in je gehele file. Het bestaat alleen binnen de haken {} die er na komen. Verder laad je de externe file asynchroon in. Dat houdt in dat je code niet netjes van boven naar beneden geladen wordt maar alles boven het laden van de data gebeurt eerst, dan alles onder en dan pas alles binnen de haken waarin de data zelf bestaat. En als laatste wordt alles wat ingeladen is als een <strong>string</strong> ingeladen. Dus mocht je data hebben dat van het type <strong>int</strong> is moet je dit eerst omzetten. Dit doet de type functie voor je die aangeroepen wordt als tweede argument binnen je d3.tsv() functie (eerste zijnde je filenaam die je in wilt laden). Je zal dus moeten kijken welke variabelen welke types moeten worden, en deze hier in de type functie specificeren.</p>
-  </div>
-  <div class="col-md-6">
-    <figure>
-      <figcaption id="example1-caption">data.csv</figcaption>
-      <pre
-        aria-describedby="example1-description"
-        aria-labelledby="example1-caption"><code
-        contenteditable="true"
-        tabindex="0"
-        spellcheck="false">
-        <b>// 1. Alles wat hier boven staat wordt als eerste gerunt</b>
-
-        <b>// Inladen data. "data.tsv" = filenaam, type = functie voor typecasting</b>
-        <b>// De variabele data kan worden gebruikt zoals hiervoor</b>
-        <b>// De variabele error is er om te kijken of er iets mis is gegaan tijdens het inladen</b>
-        d3.tsv(<u>"data.tsv"</u>, type, <strong>function</strong>(error, data) {
-          <b>// Geef een error als het inlezen van de data mis is gegaan</b>
-          <b>if</b> (error) <b>throw</b> error;
-
-          <b>// 3. Alle code die hier in ziet wordt als laatst gerunt als het inladen is gelukt </b>
-          <b>// De variabele "data" bestaat alleen hier</b>
-
-        }
-
-        <b>// 2. Alles onder de } wordt als tweede gerunt</b>
-
-        <b>// Functie die gebruikt wordt om strings over te zetten naar andere types</b>
-        <strong>function</strong> type(d) {
-          d.value = +d.value; <b>// het plusje (+) zet een string om in een int</b>
-          <b>return</b> d;
-        }
-      </code></pre>
-    </figure>
-  </div>
-</div>
-
-<p>Als we dan verder gaan met waar we gebleven zijn bij de barchart kunnen we het omschrijven naar het volgende voorbeeld, maar dan zonder de data_waardes array zelf te hoeven aan te maken.</p>
-
-  <div class="row">
-  <div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">script.js</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-    <b>// Hoogte, breedte vast zetten</b>
-    <strong>var</strong> width = 400,
-         height = 500;
-
-    <b>// y-schaal klaarzetten voor gebruik</b>
-    <strong>var</strong> y = d3.scale.linear()
-      <b>// Omdat we nu extern inladen bestaat data_waardes hier nog niet</b>
-      <b>// Hierdoor moet het domein later pas aangemaakt worden</b>
-      .range([height, 0]);
-
-    <b>// Selecteer de div container en geef hem een grootte</b>
-    <strong>var</strong> svg <b>=</b> d3.<b>select</b>(<u>"#voorbeeld"</u>).append(<u>"svg"</u>)
-      .attr(<u>"width"</u>, width)
-      .attr(<u>"height"</u>, height);
-
-    <b>// Inladen van de data</b>
-    d3.csv(<u>"data.csv"</u>, type, <strong>function</strong>(error, data_waardes) {
-      <b>// Checken of het inladen goed is gegaan</b>
-      <b>if</b> (error) <b>throw</b> error;
-
-      <b>// Nu we toegang hebben tot de data kunnen we het domein aanmaken</b>
-      y.domain([<b>0</b>, d3.max(data_waardes, <strong>function</strong>(d) { <b>return</b> d.value; })]);
-
-      <b>// Barbreedte berekenen</b>
-      <strong>var</strong> bar_width = width / data_waardes.length;
-
-      <b>// Het appenden van de grouping elementen</b>
-      <strong>var</strong> bar = svg.selectAll(<u>"g"</u>)
-          .data(data_waardes)
-        .enter().append("g")
-          .attr(<u>"transform"</u>, <strong>function</strong>(d,i) { <b>return</b> <u>"translate("</u> + i <b>*</b> bar_width + <u>",0)"</u>; });
-
-        <b>// Append de rect aan het grouping element</b>
-        bar.append(<u>"rect"</u>)
-          <b>// Geef aan waar de bar moet beginnen</b>
-          .attr(<u>"y"</u>, <strong>function</strong>(d) { <b>return</b> y(d.value); })
-          <b>// Geef aan hoe hoog de bar moet worden</b>
-          .attr(<u>"height"</u>, <strong>function</strong>(d) { <b>return</b> height - y(d.value); })
-          .attr(<u>"width"</u>, bar_width - 1)
-          .style(<u>"fill"</u>, <u>"steelblue"</u>);
-
-        <b>// En we appenden te text weer</b>
-        bar.append(<u>"text"</u>)
-          .attr(<u>"text-anchor"</u>, <u>"middle"</u>)
-          .attr(<u>"x"</u>, bar_width / 2)
-          .attr(<u>"y"</u>,  <strong>function</strong>(d) {<b>return</b> y(d.value) + <b>30</b>; })
-          .attr(<u>"dy"</u>, <u>".75em"</u>)
-          .style(<u>"fill"</u>, <u>"white"</u>)
-          .text(<strong>function</strong> (d) { <b>return</b> d.value; });
-    });
-
-    <b>// Functie die gebruikt wordt om strings over te zetten naar andere types</b>
-    <strong>function</strong> type(d) {
-      d.value = +d.value; <b>// het plusje (+) zet een string om in een int</b>
-      <b>return</b> d;
-    }
-
-  </code></pre>
-      </figure>
-
-
-</div>
-<div class="col-md-6">
-<figure>
-        <figcaption id="example1-caption">barchart.html</figcaption>
-  <pre
-    aria-describedby="example1-description"
-    aria-labelledby="example1-caption"><code
-    contenteditable="true"
-    tabindex="0"
-    spellcheck="false">
-  <b>&lt;!DOCTYPE html&gt;</b>
-  <i>&lt;!-- Dit is een normale HTML file --&gt;</i>
-  <b>&lt;html&gt;</b>
-  <b>&lt;head&gt;</b>
-    <b>&lt;title&gt;</b> Barchart <b>&lt;/title&gt;</b>
-    <i>&lt;!-- D3 inladen --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"https://d3js.org/d3.v3.min.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-    <i>&lt;!-- Inladen van mijn JavaScript code --&gt;</i>
-    <b>&lt;<strong>script</strong> src</b>=<u>"js/script.js"</u> <b>charset</b>=<u>"utf-8"</u>&gt;<strong>&lt;/script</strong>&gt;
-  <b>&lt;/head&gt;</b>
-  <b>&lt;body&gt;</b>
-    <b>&lt;div</b> id=<u>"voorbeeld"</u>&gt;<b>&lt;div&gt;</b>
-  <b>&lt;/body&gt;</b>
-  <b>&lt;/html&gt;</b>
-    </code></pre>
-      </figure>
-  <div class="preview_svg2" id="voorbeeld4_l4"></div>
-  </div></div>
-
-  <p>Bij de volgende lesbrief gaan we de assen en de titels en bronvermelding maken.</p>
-
-<script type="text/javascript">
-
-
-    // Als je veel waardes hebt kan je de dimensies van je SVG ook vast zetten
-    var width = 650,
-         height = 500;
-
-    // Dit keer gebruiken we een d3.scale.linear() voor de y waarde!
-    var y = d3.scale.linear()
-      // Hier gebruiken we dit keer de height van de SVG omdat we de hoogte in gaan nu
-      .range([height, 0]);
-
-    // Selecteer de div container en geef hem een grootte
-    var svg = d3.select("#voorbeeld4_l4").append("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-    d3.csv("../data/data_l4.csv", type, function(error, data_waardes) {
-      if (error) throw error;
-
-      y.domain([0, d3.max(data_waardes, function(d) { return d.value; })]);
-
-      // We berekenen de breedte van elke bar door de totale breedte te delen door het aantal data punten
-      var bar_width = width / data_waardes.length;
-
-      // Het appenden van de grouping elementen
-      var bar = svg.selectAll("g")
-          .data(data_waardes)
-        .enter().append("g")
-          // De translate veranderd aangezien we nu onze bars horizontaal verspreiden
-          // Daarom is het eerste getal (x) veranderlijk, en tweede getal (y) blijft 0
-          .attr("transform", function(d,i) { return "translate(" + i * bar_width + ",0)"; });
-
-        // Append de rect aan het grouping element
-        bar.append("rect")
-          // Geef aan waar de bar moet beginnen
-          .attr("y", function(d) {console.log(d); return y(d.value); })
-          // Geef aan hoe hoog de bar moet worden
-          .attr("height", function(d) { return height - y(d.value); })
-          .attr("width", bar_width - 1)
-          .style("fill", "steelblue");
-
-        // En we appenden te text weer
-        bar.append("text")
-          // We gebruiken text-anchor zodat het aanknooppunt van de text zelf in het midden genomen wordt. Haal dit maar weg en kijk wat er gebeurt!
-          .attr("text-anchor", "middle")
-          .attr("x", bar_width / 2)
-          .attr("y",  function(d) {return y(d.value) + 30; })
-          .attr("dy", ".75em")
-          .style("fill", "white")
-          .text(function (d) { return d.value; });
-    });
-
-    // Functie die gebruikt wordt om strings over te zetten naar andere types
-    function type(d) {
-      d.value = +d.value; // het plusje (+) zet een string om in een int
-      return d;
-    }
-
-</script>
-
-</div>
 </div>
 
 <!-- Footer -->

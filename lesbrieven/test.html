@@ -14,52 +14,61 @@
 
 <script type="text/javascript">
 
-    // Specificeer de data in een array
-    data_waardes = [250, 100, 170, 354, 145, 296]
-
-    // Als je veel waardes hebt kan je de dimensies van je SVG ook vast zetten
+     // Hoogte, breedte vast zetten
     var width = 400,
          height = 500;
 
-    // Dit keer gebruiken we een d3.scale.linear() voor de y waarde!
+    // y-schaal klaarzetten voor gebruik
     var y = d3.scale.linear()
-      .domain([0, d3.max(data_waardes)])
-      // Hier gebruiken we dit keer de height van de SVG omdat we de hoogte in gaan nu
+      // Omdat we nu extern inladen bestaat data_waardes hier nog niet
+      // Hierdoor moet het domein later pas aangemaakt worden
       .range([height, 0]);
-
-    // We berekenen de breedte van elke bar door de totale breedte te delen door het aantal data punten
-    var bar_width = width / data_waardes.length;
 
     // Selecteer de div container en geef hem een grootte
     var svg = d3.select("#voorbeeld").append("svg")
       .attr("width", width)
       .attr("height", height);
 
-    // Het appenden van de grouping elementen
-    var bar = svg.selectAll("g")
-        .data(data_waardes)
-      .enter().append("g")
-        // De translate veranderd aangezien we nu onze bars horizontaal verspreiden
-        // Daarom is het eerste getal (x) veranderlijk, en tweede getal (y) blijft 0
-        .attr("transform", function(d,i) { return "translate(" + i * bar_width + ",0)"; });
+    // Inladen van de data
+    d3.csv("../data/data_l4.csv", type, function(error, data_waardes) {
+      // Checken of het inladen goed is gegaan
+      if (error) throw error;
 
-      // Append de rect aan het grouping element
-      bar.append("rect")
-        // Geef aan waar de bar moet beginnen
-        .attr("y", function(d) { return y(d); })
-        // Geef aan hoe hoog de bar moet worden
-        .attr("height", function(d) { return height - y(d); })
-        .attr("width", bar_width - 1)
-        .style("fill", "steelblue");
+      // Nu we toegang hebben tot de data kunnen we het domein aanmaken
+      y.domain([0, d3.max(data_waardes, function(d) { return d.value; })]);
 
-      // En we appenden te text weer
-      bar.append("text")
-        // We gebruiken text-anchor zodat het aanknooppunt van de text zelf in het midden genomen wordt. Haal dit maar weg en kijk wat er gebeurt!
-        .attr("text-anchor", "middle")
-        .attr("x", bar_width / 2)
-        .attr("y",  function(d) {return y(d) + 30; })
-        .attr("dy", ".75em")
-        .style("fill", "white")
-        .text(function (d) { return d; });
+      // Barbreedte berekenen
+      var bar_width = width / data_waardes.length;
+
+      // Het appenden van de grouping elementen
+      var bar = svg.selectAll("g")
+          .data(data_waardes)
+        .enter().append("g")
+          .attr("transform", function(d,i) { return "translate(" + i * bar_width + ",0)"; });
+
+        // Append de rect aan het grouping element
+        bar.append("rect")
+          // Geef aan waar de bar moet beginnen
+          .attr("y", function(d) { return y(d.value); })
+          // Geef aan hoe hoog de bar moet worden
+          .attr("height", function(d) { return height - y(d.value); })
+          .attr("width", bar_width - 1)
+          .style("fill", "steelblue");
+
+        // En we appenden te text weer
+        bar.append("text")
+          .attr("text-anchor", "middle")
+          .attr("x", bar_width / 2)
+          .attr("y",  function(d) {return y(d.value) + 30; })
+          .attr("dy", ".75em")
+          .style("fill", "white")
+          .text(function (d) { return d.value; });
+    });
+
+    // Functie die gebruikt wordt om strings over te zetten naar andere types
+    function type(d) {
+      d.value = +d.value; // het plusje (+) zet een string om in een int
+      return d;
+    }
 
 </script>
