@@ -137,12 +137,6 @@
   </div>
   </div>
 
-  <script type="text/javascript">
-    var x = d3.scale.ordinal()
-    .domain(["A", "B", "C", "D", "E", "F"])
-    .range([0, 1, 2, 3, 4, 5]);
-  </script>
-
   <p>Als we bijvoorbeeld gaan kijken hoe vaak bepaalde letters in het alfabet voorkomen zullen we dus een ordinale schaal moeten gebruiken. Net zoals <code>d3.scale.linear()</code> bestaat kunnen we ook <code>d3.scale.ordinal()</code> gebruiken. Als we in deze functie het domein en de range zouden mee geven zou het in het geval van letters in het alfabet eruit zien als het volgende: </p>
   <div class="row">
   <div class="col-md-6">
@@ -164,6 +158,22 @@
     </code></pre>
       </figure>
   </div>
+  <p>Het zou alleen vrij snel vervelend worden als je in de range elke plek aan moet geven, dus kunnen we net als met <code>d3.scale.linear()</code> de width gebruiken als argument. </p>
+    <figure>
+  <pre
+    aria-describedby="example1-description"
+    aria-labelledby="example1-caption"><code
+    contenteditable="true"
+    tabindex="0"
+    spellcheck="false">
+  <b>// ordinal scale maken</b>
+  <strong>var</strong> x = d3.scale.ordinal()
+    <b>// Om het even simpel te houden gebruiken we alleen de eerste zes letters van het alfabet</b>
+    .domain([<u>"A"</u>,<u>"B"</u>,<u>"C"</u>,<u>"D"</u>,<u>"E"</u>,<u>"F"</u>])
+    .range([<b>0</b>, width]);
+    </code></pre>
+      </figure>
+  <p>Op deze manier als de width bijvoorbeeld 960 is zal x("A") gewoon nog 0 zijn, maar x("B") zal dan 160 zijn etc. De breedte die je dus mee geeft word in gelijke stukken verdeelt.</p>
   </div>
 </div>
 

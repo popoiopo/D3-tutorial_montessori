@@ -6,7 +6,7 @@ var height = 500;
     collision_targets = [base_circle];
     //enemies = [];
     threshold = 50;
-    pause_text = "Game Paused Press Space to Start";
+    pause_text = "Game Paused Press Enter to Start";
     pattern_interval = 4000;
   
 var enemyGeneration = -1;
@@ -234,7 +234,7 @@ function lossGame(){
   game_status.state = 3;
   pauseGame();
   svg.select("#state_indicator")
-    .text("You lost game, press space to start again");
+    .text("You lost game, press Enter to start again");
 }
 
 function resumeGame(){
@@ -517,7 +517,7 @@ function setup(){
       else if(d3.event.keyCode == 39){//press right
         control_status.rotate = -1;
       }
-      else if(d3.event.keyCode == 32){//press space
+      else if(d3.event.keyCode == 13){//press enter
         if(game_status.state == 0){
           setGameState(1);
         }
